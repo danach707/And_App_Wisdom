@@ -7,4 +7,5 @@ package com.example.danacoh1.qme;
 public class Constants {
 
     final static public String FIRST_RUN = "First time";
+    final static public String NULL_STRING = "Nothing here";
 }
