@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_main"
-    tools:context="com.example.danacoh1.qme.MainActivity">
+    tools:context="com.example.danacoh1.qme.QuestionActivity">
 
     <TextView
         android:layout_width="wrap_content"

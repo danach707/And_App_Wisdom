@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity {
 
     final private String TAG = getClass().getSimpleName();
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Question questionData;
 
 
-
+//=============================================================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
      //   callAlertDialog();
 
-        Question[] qset = Question.getInitQuestions();
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
-        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            addInitialDataToFirebase(qset);;
-            editor.putBoolean(Constants.FIRST_RUN, false).apply();
-        }
-
-
 
         y_b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 questionData.setYes_counter(questionData.getYes_counter()+1);
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
+                FirebaseUtils.writeToDatabase(questionData);
             }
         });
 
@@ -91,11 +82,14 @@ public class MainActivity extends AppCompatActivity {
                 questionData.setNo_counter(questionData.getNo_counter()+1);
                 String tmp = "" + questionData.getNo_counter();
                 n_c.setText(tmp);
+                FirebaseUtils.writeToDatabase(questionData);
             }
         });
 
 
     }
+
+    //=============================================================================================
 
     private void callAlertDialog() {
 
@@ -123,20 +117,13 @@ public class MainActivity extends AppCompatActivity {
         alert11.show();
     }
 
-    private void addInitialDataToFirebase(Question [] qset) {
-        for (Question q: qset){
-            String key = mDatabase.push().getKey();
-            q.setId(key);
-            mDatabase.child(key).setValue(q);
-        }
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
 
-        editor.putBoolean(Constants.FIRST_RUN, false);
-        editor.commit();
+    //=============================================================================================
 
-    }
+
+
+    //=============================================================================================
+
+
 }

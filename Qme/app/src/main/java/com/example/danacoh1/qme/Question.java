@@ -10,6 +10,8 @@ public class Question {
     private int yes_counter, no_counter;
     private String id;
 
+    //=============================================================================================
+
     public Question(){
         question = Constants.NULL_STRING;
         yes_counter = 0;
@@ -22,37 +24,55 @@ public class Question {
         no_counter = 0;
     }
 
+    //=============================================================================================
+
     public String getQuestion() {
         return question;
     }
+
+    //=============================================================================================
 
     public void setQuestion(String question) {
         this.question = question;
     }
 
+    //=============================================================================================
+
     public int getYes_counter() {
         return yes_counter;
     }
+
+    //=============================================================================================
 
     public void setYes_counter(int yes_counter) {
         this.yes_counter = yes_counter;
     }
 
+    //=============================================================================================
+
     public int getNo_counter() {
         return no_counter;
     }
+
+    //=============================================================================================
 
     public void setNo_counter(int no_counter) {
         this.no_counter = no_counter;
     }
 
+    //=============================================================================================
+
     public String getId() {
         return id;
     }
 
+    //=============================================================================================
+
     public void setId(String id) {
         this.id = id;
     }
+
+    //=============================================================================================
 
     public static Question[] getInitQuestions() {
 
@@ -76,4 +96,11 @@ public class Question {
         }
         return qset;
     }
+
+    //=============================================================================================
+
+    public String toString(){
+        return "id: " + id + "\nquestion: " + question + "\nyesC: " + yes_counter + "\nnoC: " + no_counter;
+    }
 }
+

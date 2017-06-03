@@ -22,13 +22,11 @@ import java.util.Vector;
 public class QuestionAdapter extends BaseAdapter {
 
     private List<Question> data;
-    private Context context;
     private static LayoutInflater inflater = null;
 
 
     public QuestionAdapter(@NonNull Context context, @NonNull List data) {
 
-        this.context = context;
         this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
