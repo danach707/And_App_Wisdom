@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceIdReceiver;
 
 public class NewQuestionActivity extends AppCompatActivity {
 
@@ -30,7 +28,7 @@ public class NewQuestionActivity extends AppCompatActivity {
                 String quest = ""+question.getText();
                 if(quest.length() != 0){
                     Question q = new Question(quest);
-                    FirebaseUtils.writeToDatabase(q);
+                    DatabaseUtils.writeToDatabase_question(q);
                 }
             }
         });

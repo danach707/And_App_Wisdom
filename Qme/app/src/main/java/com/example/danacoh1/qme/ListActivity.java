@@ -28,6 +28,7 @@ public class ListActivity extends Activity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+
     //=============================================================================================
 
     @Override
@@ -40,12 +41,12 @@ public class ListActivity extends Activity {
         q_arraylist = new ArrayList<>();
 
 
+
         Question[] qset = Question.getInitQuestions();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
             addInitialDataToFirebase(qset);
-            ;
             editor.putBoolean(Constants.FIRST_RUN, false).apply();
         }
 
@@ -116,6 +117,7 @@ public class ListActivity extends Activity {
             database.child(key).setValue(q);
         }
     }
+
 
 
 }

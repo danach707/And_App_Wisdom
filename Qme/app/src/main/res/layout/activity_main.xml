@@ -3,18 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background_main"
+    android:orientation="vertical"
     tools:context="com.example.danacoh1.qme.QuestionActivity">
 
     <TextView
+        android:id="@+id/Question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question"
         android:layout_gravity="center"
-        android:textSize="30dp"
         android:layout_margin="30dp"
-        android:id="@+id/Question" />
+        android:text="Question"
+        android:textSize="30dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,25 +23,25 @@
 
 
         <Button
+            android:id="@+id/yes_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:id="@+id/yes_button"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:text="yes" />
 
 
         <Button
             android:id="@+id/no_button"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:text="no" />
 
-        </LinearLayout>
+    </LinearLayout>
 
 
     <LinearLayout
@@ -52,27 +52,42 @@
         <TextView
             android:id="@+id/yes_count"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="yes count" />
 
         <TextView
             android:id="@+id/no_count"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content"
             android:text="no count" />
 
 
-
     </LinearLayout>
+
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </ListView>
 
 
 </LinearLayout>

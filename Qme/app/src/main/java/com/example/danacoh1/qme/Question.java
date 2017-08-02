@@ -1,5 +1,8 @@
 package com.example.danacoh1.qme;
 
+import java.util.LinkedList;
+import java.util.Vector;
+
 /**
  * Created by danacoh1 on 5/26/2017.
  */
@@ -7,8 +10,9 @@ package com.example.danacoh1.qme;
 public class Question {
 
     private String question;
-    private int yes_counter, no_counter;
+    private long yes_counter, no_counter;
     private String id;
+    private Comments comments;
 
     //=============================================================================================
 
@@ -16,12 +20,14 @@ public class Question {
         question = Constants.NULL_STRING;
         yes_counter = 0;
         no_counter = 0;
+        comments = new Comments();
     }
 
     public Question(String question) {
         this.question = question;
         yes_counter = 0;
         no_counter = 0;
+        comments = new Comments();
     }
 
     //=============================================================================================
@@ -38,25 +44,25 @@ public class Question {
 
     //=============================================================================================
 
-    public int getYes_counter() {
+    public long getYes_counter() {
         return yes_counter;
     }
 
     //=============================================================================================
 
-    public void setYes_counter(int yes_counter) {
+    public void setYes_counter(long yes_counter) {
         this.yes_counter = yes_counter;
     }
 
     //=============================================================================================
 
-    public int getNo_counter() {
+    public long getNo_counter() {
         return no_counter;
     }
 
     //=============================================================================================
 
-    public void setNo_counter(int no_counter) {
+    public void setNo_counter(long no_counter) {
         this.no_counter = no_counter;
     }
 
@@ -102,5 +108,10 @@ public class Question {
     public String toString(){
         return "id: " + id + "\nquestion: " + question + "\nyesC: " + yes_counter + "\nnoC: " + no_counter;
     }
+
+    public Comments getComments() {
+        return comments;
+    }
+
 }
 
