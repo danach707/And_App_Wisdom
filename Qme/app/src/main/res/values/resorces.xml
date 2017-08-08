@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="typesHE">
+        <item>כללי</item>
+        <item>פוליטיקה</item>
+        <item>בעלי חיים</item>
+        <item>בית ספר</item>
+        <item>בין הסדינים</item>
+        <item>אלימות</item>
+        <item>חינוך</item>
+        <item>רומנטיקה</item>
+        <item>כלכלה</item>
+        <item>הומור שחור</item>
+        <item>רפואה</item>
+        <item>צבא</item>
+        <item>חברים</item>
+        <item>הריון ולידה</item>
+        <item>לימודים</item>
+        <item>קריירה</item>
+        <item>טכנולוגיה</item>
+        <item>מתמטיקה</item>
+        <item>מדעים</item>
+        <item>מדעי המחשב</item>
+        <item>רגשות</item>
+        <item>שמעמם לי</item>
+        <item>מה עובר עלי</item>
+    </string-array>
+
+    <string-array name="typesEN">
+        <item>General</item>
+        <item>Politics</item>
+        <item>Animals</item>
+        <item>School</item>
+        <item>Between the sheets</item>
+        <item>Violence</item>
+        <item>Education</item>
+        <item>Romance</item>
+        <item>Economy</item>
+        <item>Black humor</item>
+        <item>Medicine</item>
+        <item>Army</item>
+        <item>Friends</item>
+        <item>Pregnancy and born</item>
+        <item>Studies</item>
+        <item>Carrier</item>
+        <item>Technology</item>
+        <item>Math</item>
+        <item>Science</item>
+        <item>Computer science</item>
+        <item>Feelings</item>
+        <item>I am board</item>
+        <item>My mood</item>
+    </string-array>
+</resources>

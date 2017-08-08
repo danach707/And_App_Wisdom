@@ -1,18 +1,24 @@
 package com.example.danacoh1.qme;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
 public class NewQuestionActivity extends AppCompatActivity {
 
     private DatabaseReference database;
-    Button submit;
-    EditText question;
+    private Button submit;
+    private EditText question;
+    private Spinner types;
+    private ArrayAdapter<String> questionTypesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +27,35 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         question = (EditText)findViewById(R.id.Question);
         submit = (Button) findViewById(R.id.submit);
+        types = (Spinner) findViewById(R.id.questionTypes);
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String quest = ""+question.getText();
-                if(quest.length() != 0){
-                    Question q = new Question(quest);
-                    DatabaseUtils.writeToDatabase_question(q);
+                String qtype = ""+types.getSelectedItem();
+                if(isValid()){
+                    Question q = new Question(quest,qtype);
+                    DatabaseUtils.addInitialDataToFirebase(q);
+                    Toast.makeText(getApplicationContext(), "Question submitted!" , Toast.LENGTH_LONG).show();
+                    finish();
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "missing fields" , Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
+
+
+
+    }
+    private boolean isValid(){
+        if(question.getText().length() > 0)
+            return true;
+        return false;
     }
 }

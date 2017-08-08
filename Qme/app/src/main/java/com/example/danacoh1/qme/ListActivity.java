@@ -46,7 +46,7 @@ public class ListActivity extends Activity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            addInitialDataToFirebase(qset);
+            DatabaseUtils.addInitialDataToFirebase(qset);
             editor.putBoolean(Constants.FIRST_RUN, false).apply();
         }
 
@@ -109,15 +109,5 @@ public class ListActivity extends Activity {
     }
 
     //=============================================================================================
-
-    private void addInitialDataToFirebase(Question[] qset) {
-        for (Question q : qset) {
-            String key = database.push().getKey();
-            q.setId(key);
-            database.child(key).setValue(q);
-        }
-    }
-
-
 
 }

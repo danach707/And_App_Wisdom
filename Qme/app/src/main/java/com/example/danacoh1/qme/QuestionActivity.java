@@ -86,7 +86,9 @@ public class QuestionActivity extends AppCompatActivity {
                 questionData.setYes_counter(questionData.getYes_counter()+1);
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
+                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
                 DatabaseUtils.writeToDatabase_question(questionData);
+
             }
         });
 
@@ -96,7 +98,9 @@ public class QuestionActivity extends AppCompatActivity {
                 questionData.setNo_counter(questionData.getNo_counter()+1);
                 String tmp = "" + questionData.getNo_counter();
                 n_c.setText(tmp);
+                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
                 DatabaseUtils.writeToDatabase_question(questionData);
+
             }
         });
 
@@ -135,31 +139,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     //=============================================================================================
 
-    private void callAlertDialog() {
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Write your message here.");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
 
 
 
