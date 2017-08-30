@@ -3,9 +3,11 @@ package com.example.danacoh1.qme;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -18,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,14 +32,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -48,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
+    private final String TAG = this.getClass().getSimpleName();
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -57,6 +68,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             "bar@example.com:world",
             "liorsap1@gmail.com:popopo"
     };
+
+
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -69,6 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private boolean approval = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +124,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    //Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -340,12 +355,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private Boolean approvalThread = false;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
-
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -358,17 +373,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
             //The Authentication method in action
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    Log.d("pieces[0] + pieces[1] " ,""+ pieces[0]+pieces[1]);
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
-            return false;
+            return signInUser(mEmail,mPassword);
         }
 
         @Override
@@ -377,12 +383,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                buildMessage("here");
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
-
-
+                buildMessageSignUp(mEmail,mPassword);
             }
         }
 
@@ -393,24 +399,78 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public void writeUser(){
+
+    private void buildMessageSignUp(final String email, final String password ){
+        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
+        alertDialog.setTitle("Are you register?");
+        alertDialog.setMessage("Do you want to register your details: " + email+" "+password);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        writeUser(email,password);
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+
+    public boolean signInUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            buildMessage("ggg");
+                            approval = true;
+                        }
+                    }
+                });
+        buildMessage("ggg "+approval);
+        return approval;
+    }
+
+
+    public void writeUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed,
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), getString(R.string.action_sign_up_sucsses),
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
+                        else{
+                            Toast.makeText(getApplicationContext(), getString(R.string.action_sign_up_Failed),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
+    }
+
+
+
+    private void buildMessage(String msg){
+        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
+        alertDialog.setTitle("Are you register?");
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
 
