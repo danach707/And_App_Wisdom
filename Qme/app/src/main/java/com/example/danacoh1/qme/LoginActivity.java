@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -60,18 +61,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final String TAG = this.getClass().getSimpleName();
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello",
-            "bar@example.com:world",
-            "liorsap1@gmail.com:popopo"
-    };
-
-
-
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -92,8 +81,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
-        //DatabaseUtils.buildMessage(getApplicationContext(),"dana hashmena behema");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -365,16 +352,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            boolean attampt = false;
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
+                attampt = signInUser(mEmail,mPassword);
             } catch (InterruptedException e) {
                 return false;
             }
             //The Authentication method in action
             // TODO: register the new account here.
-            return signInUser(mEmail,mPassword);
+            return attampt;
         }
 
         @Override
@@ -384,6 +372,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 buildMessage("here");
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -402,8 +392,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void buildMessageSignUp(final String email, final String password ){
         AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
-        alertDialog.setTitle("Are you register?");
-        alertDialog.setMessage("Do you want to register your details: " + email+" "+password);
+        alertDialog.setTitle("Sign up for Qme");
+        alertDialog.setMessage("Do you want to Add new account:\nEmail: " + email+" Password: "+password);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -428,12 +418,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            buildMessage("ggg");
+                            buildMessage("try to sign in");
                             approval = true;
                         }
                     }
                 });
-        buildMessage("ggg "+approval);
+        //buildMessage("ggg "+approval);
         return approval;
     }
 
