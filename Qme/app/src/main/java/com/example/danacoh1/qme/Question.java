@@ -8,6 +8,7 @@ import java.util.Vector;
  */
 
 public class Question {
+    private String UID;
     private String question;
     private long yes_counter, no_counter;
     private String id;

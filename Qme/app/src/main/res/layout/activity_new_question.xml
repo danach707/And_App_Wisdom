@@ -1,47 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:orientation="vertical"
     tools:context="com.example.danacoh1.qme.NewQuestionActivity">
 
 
+    <ImageView
+        android:id="@+id/header_cover_image"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_2" />
+
+    <ImageButton
+        android:id="@+id/user_profile_photo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/header_cover_image"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="-43dp"
+        android:background="@drawable/profile_circular_border_imageview"
+        android:elevation="5dp"
+        android:padding="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/qme_logo" />
 
 
-    <LinearLayout
-        android:layout_width="368dp"
+    <EditText
+        android:id="@+id/Question"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="מה תרצה לשאול?" />
 
 
+    <Spinner
+        android:id="@+id/questionTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:entries="@array/typesHE"></Spinner>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/questionTypes"
-            android:entries="@array/typesHE">
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="שמור"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="217dp" />
 
 
-        </Spinner>
-
-        <EditText
-            android:id="@+id/Question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="רשום את השאלה" />
-
-        <Button
-            android:id="@+id/submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="שמור"
-            tools:layout_editor_absoluteX="134dp"
-            tools:layout_editor_absoluteY="217dp" />
-
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

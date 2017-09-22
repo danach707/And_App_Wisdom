@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -35,6 +36,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -72,7 +79,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean approval = false;
+    private boolean approval;
+
+
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +113,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+        Button mEmailSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
+        mEmailSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), UserRegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -122,7 +141,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
     }
+
 
     @Override
     public void onStart() {
@@ -137,6 +160,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -352,33 +376,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            boolean attampt = false;
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-                attampt = signInUser(mEmail,mPassword);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            //The Authentication method in action
-            // TODO: register the new account here.
-            return attampt;
+            return signInUser(mEmail, mPassword);
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
-                buildMessage("here");
+                finish();
                 Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                 startActivity(intent);
-                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
-                buildMessageSignUp(mEmail,mPassword);
+                //buildMessageSignUp(mEmail, mPassword);
             }
         }
 
@@ -390,14 +402,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    private void buildMessageSignUp(final String email, final String password ){
+    private void buildMessageSignUp(final String email, final String password) {
         AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
         alertDialog.setTitle("Sign up for Qme");
-        alertDialog.setMessage("Do you want to Add new account:\nEmail: " + email+" Password: "+password);
+        alertDialog.setMessage("Do you want to Add new account:\nEmail: " + email + "\nPassword: " + password);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        writeUser(email,password);
+                        writeUser(email, password);
                         dialog.dismiss();
                     }
                 });
@@ -409,52 +421,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 });
         alertDialog.show();
     }
-
-
-    public boolean signInUser(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            buildMessage("try to sign in");
-                            approval = true;
-                        }
-                    }
-                });
-        //buildMessage("ggg "+approval);
-        return approval;
-    }
-
-
-    public void writeUser(String email, String password){
+    public void writeUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.action_sign_up_sucsses),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), getString(R.string.action_sign_up_Failed),
-                                    Toast.LENGTH_SHORT).show();
+                        } else {
                         }
                     }
                 });
     }
 
 
+    public boolean signInUser(String email, String password) {
+        approval = false;
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            approval = true;
+                        }
+                    }
+                });
+        return approval;
+    }
 
-    private void buildMessage(String msg){
+    private void buildMessage(String msg) {
         AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
         alertDialog.setTitle("Are you register?");
         alertDialog.setMessage(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

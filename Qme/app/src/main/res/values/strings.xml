@@ -33,9 +33,10 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="prompt_email">דואר אלקטרוני</string>
+    <string name="prompt_password">סיסמה</string>
+    <string name="action_sign_in">כניסה</string>
+    <string name="action_sign_up">הרשמה</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_up_sucsses">Register Complited</string>
     <string name="action_sign_up_Failed">Register Failed</string>
@@ -47,5 +48,17 @@
         completions."
     </string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="username">שם משתמש</string>
+    <string name="firstname">שם פרטי</string>
+    <string name="surname">שם משפחה</string>
+    <string name="age">גיל</string>
+    <string name="passwordconfirmation">אמת סיסמה</string>
+    <string name="male">זכר</string>
+    <string name="female">נקבה</string>
+    <string name="nogender">אחר</string>
+    <string name="cancel">ביטול</string>
+
+
+
 
 </resources>

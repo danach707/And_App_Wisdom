@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="typesHE">
-        <item>כללי</item>
+        <item>תחום השאלה</item>
         <item>פוליטיקה</item>
         <item>בעלי חיים</item>
         <item>בית ספר</item>
@@ -51,5 +51,11 @@
         <item>Feelings</item>
         <item>I am board</item>
         <item>My mood</item>
+    </string-array>
+
+    <string-array name="Gender">
+        <item>@string/female</item>
+        <item>@string/male</item>
+        <item>@string/nogender</item>
     </string-array>
 </resources>
