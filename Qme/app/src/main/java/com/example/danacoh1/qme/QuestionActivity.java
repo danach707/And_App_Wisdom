@@ -1,10 +1,7 @@
 package com.example.danacoh1.qme;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,8 +27,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     final private String TAG = getClass().getSimpleName();
 
-    TextView question, y_c, n_c;
-    Button y_b, n_b, next_q;
+    TextView questionView, y_c, n_c;
+    Button y_b, n_b;
 
 
     DatabaseReference myRef;
@@ -59,10 +56,11 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        sharedPreferences = getPreferences(MODE_PRIVATE);
 
         y_b = (Button)findViewById(R.id.yes_button);
         n_b = (Button)findViewById(R.id.no_button);
-        question = (TextView)findViewById(R.id.Question);
+        questionView = (TextView)findViewById(R.id.Question);
         y_c = (TextView)findViewById(R.id.yes_count);
         n_c = (TextView)findViewById(R.id.no_count);
 
@@ -72,7 +70,8 @@ public class QuestionActivity extends AppCompatActivity {
         Gson gson = new Gson();
         questionData = gson.fromJson(data, Question.class);
 
-        question.setText(questionData.getQuestion());
+        questionView.setText(questionData.getQuestion());
+        create_pie(questionData.getYes_counter(),questionData.getNo_counter());
 
         //TODO add error handling
 
@@ -88,6 +87,7 @@ public class QuestionActivity extends AppCompatActivity {
                 y_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
                 DatabaseUtils.writeToDatabase_question(questionData);
+                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
 
             }
         });
@@ -100,11 +100,10 @@ public class QuestionActivity extends AppCompatActivity {
                 n_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
                 DatabaseUtils.writeToDatabase_question(questionData);
+                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
 
             }
         });
-
-        create_pie(questionData.getYes_counter(),questionData.getNo_counter());
 
 
         ListView list;
@@ -175,7 +174,7 @@ public class QuestionActivity extends AppCompatActivity {
 
 
 
-        ArrayList<String> xVals = new ArrayList<String>();
+        ArrayList<String> xVals = new ArrayList<>();
 
         xVals.add("YES");
         xVals.add("NO");
@@ -190,6 +189,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
+        pieChart.invalidate();
 
 
 

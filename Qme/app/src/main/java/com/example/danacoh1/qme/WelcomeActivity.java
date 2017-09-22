@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by danacoh1 on 7/7/2017.
  */
@@ -120,11 +122,14 @@ public class WelcomeActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
+    //============================TO FIX=======================================
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(WelcomeActivity.this, UserProfileActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, ListActivity.class));
         finish();
     }
+
+    //============================TO FIX=======================================
 
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {

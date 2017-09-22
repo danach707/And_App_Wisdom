@@ -125,7 +125,7 @@ public class Question {
     //=============================================================================================
 
     public String toString(){
-        return "id: " + id + "\nquestion: " + question + "\nyesC: " + yes_counter + "\nnoC: " + no_counter;
+        return "id: " + id + "\nquestionView: " + question + "\nyesC: " + yes_counter + "\nnoC: " + no_counter;
     }
 
     public Comments getComments() {

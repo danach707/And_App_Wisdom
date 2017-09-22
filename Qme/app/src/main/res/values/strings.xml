@@ -10,17 +10,17 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
 
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title">Welcome to Qme!</string>
+    <string name="slide_1_desc">Ask the hardest questions and get the simplest answer from all ove the world </string>
 
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title">Ask a question</string>
+    <string name="slide_2_desc">People will answer yes/no for your dilemma and you can decide by the statistics! </string>
 
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title">Answer other people questions</string>
+    <string name="slide_3_desc">answer yes/no for other people dilemmas and help solve their problems!</string>
 
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title">Comment</string>
+    <string name="slide_4_desc">Comment other people questions to </string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
