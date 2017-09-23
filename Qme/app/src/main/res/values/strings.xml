@@ -44,6 +44,7 @@
         completions."
     </string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="error_invalid_age">"age must be over 13"</string>
 
 
 
@@ -51,6 +52,7 @@
     <string name="prompt_password">סיסמה</string>
     <string name="action_sign_in">כניסה</string>
     <string name="action_sign_up">הרשמה רגילה</string>
+    <string name="notSignedIn">לא מחובר</string>
 
     <string name="username">שם משתמש</string>
     <string name="firstname">שם פרטי</string>
@@ -71,7 +73,6 @@
     <string name="female">נקבה</string>
     <string name="gender">מין</string>
     <string name="nogender">אחר</string>
-
 
 
 

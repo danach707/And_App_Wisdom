@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,12 +24,17 @@ import com.google.firebase.auth.FirebaseUser;
 public class UserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private User current_user;
+    private FirebaseUser userAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        userAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +53,21 @@ public class UserProfileActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        try {
+            current_user = DatabaseUtils.readUserFromDatabase(userAuth.getUid());
+        }catch(NullPointerException e){
+            Toast.makeText(getApplicationContext(), "user not exist", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        Log.d("bla bla", userAuth.getUid());
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView navheader = (TextView) findViewById(R.id.nav_profile_name);
+        if(current_user != null) {
+            navheader.setText(current_user.getFname() + " " + current_user.getLname());
+        }
+
     }
 
     //==============================================================================================//

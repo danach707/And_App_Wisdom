@@ -21,9 +21,14 @@ public class User {
     private String email;
     private Uri photoUrl;
     private String uid;
+    private String gender;
     private LinkedList<String> askedQuestionsUID;
 
-    public User(String username, String password, String fname, String lname, String age, String email, Uri photoUrl) {
+    public User() {
+
+    }
+
+    public User(String username, String password, String fname, String lname, String age, String email, String gender, Uri photoUrl) {
         this.username = username;
         this.password = password;
         this.fname = fname;
@@ -31,6 +36,7 @@ public class User {
         this.age = age;
         this.email = email;
         this.photoUrl = photoUrl;
+        this.gender = gender;
         askedQuestionsUID = new LinkedList<>();
     }
 
@@ -89,6 +95,22 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public LinkedList<String> getAskedQuestionsUID() {

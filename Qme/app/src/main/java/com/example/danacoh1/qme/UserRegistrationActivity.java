@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class UserRegistrationActivity extends AppCompatActivity {
 
@@ -36,7 +37,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private View mProgressView;
     private UserSignUpTask mAuthTask = null;
-    DatabaseReference database = FirebaseDatabase.getInstance().getReference("server/saving-data/qme-a00a6").child("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +77,21 @@ public class UserRegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showProgress(true);
                 if (valiDetails()) {
-                    User user = new User(null,
+                    User user = new User(username.getText().toString(),
                                         password.getText().toString(),
                                         firstname.getText().toString(),
                                         surname.getText().toString(),
                                         age.getText().toString(),
                                         email.getText().toString(),
+                                        gender.getSelectedItem().toString(),
                                         null);
                     DatabaseUtils.writeToDatabase_user(user);
 
                     mAuthTask = new UserSignUpTask(email.getText().toString(), password.getText().toString());
                     mAuthTask.execute((Void) null);
+
                     finish();
-                    Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
                     showProgress(false);
@@ -129,7 +131,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
         email.setError(null);
         password.setError(null);
         username.setError(null);
+        age.setError(null);
         String email = this.email.getText().toString();
+        String ugender = this.gender.getSelectedItem().toString();
         String musername = this.username.getText().toString();
         String pass = password.getText().toString();
         String fname = firstname.getText().toString();
@@ -143,6 +147,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(pass) && !isPasswordValid(pass)) {
             password.setError(getString(R.string.error_invalid_password));
             focusView = password;
+            cancel = true;
+        }
+        if (!TextUtils.isEmpty(userage) && Integer.parseInt(userage) < Constants.LEGAL_AGE) {
+            age.setError(getString(R.string.error_invalid_age));
+            focusView = age;
             cancel = true;
         }
         if (TextUtils.isEmpty(email)) {
