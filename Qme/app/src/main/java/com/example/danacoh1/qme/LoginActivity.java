@@ -385,7 +385,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             if (success) {
                 finish();
-                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -445,6 +445,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
                 });
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return approval;
     }
 
@@ -460,5 +465,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 });
         alertDialog.show();
     }
+
+
 }
 

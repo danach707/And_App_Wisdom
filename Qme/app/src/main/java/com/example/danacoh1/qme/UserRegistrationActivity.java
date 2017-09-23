@@ -18,23 +18,25 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class UserRegistrationActivity extends AppCompatActivity {
 
-    private EditText firstname, surname, age, username, password, password2;
+    private EditText firstname, surname, age, email, password, password2, username;
     private Spinner gender;
     private Button signup, cancel;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private View mProgressView;
     private UserSignUpTask mAuthTask = null;
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference("server/saving-data/qme-a00a6").child("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         firstname = (EditText) findViewById(R.id.reg_privatename);
         surname = (EditText) findViewById(R.id.reg_surname);
         age = (EditText) findViewById(R.id.reg_age);
+        email = (EditText) findViewById(R.id.reg_email);
         username = (EditText) findViewById(R.id.reg_username);
         password = (EditText) findViewById(R.id.reg_password);
         password2 = (EditText) findViewById(R.id.reg_password2);
@@ -74,10 +77,19 @@ public class UserRegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showProgress(true);
                 if (valiDetails()) {
-                    mAuthTask = new UserSignUpTask(username.getText().toString(), password.getText().toString());
+                    User user = new User(null,
+                                        password.getText().toString(),
+                                        firstname.getText().toString(),
+                                        surname.getText().toString(),
+                                        age.getText().toString(),
+                                        email.getText().toString(),
+                                        null);
+                    DatabaseUtils.writeToDatabase_user(user);
+
+                    mAuthTask = new UserSignUpTask(email.getText().toString(), password.getText().toString());
                     mAuthTask.execute((Void) null);
                     finish();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                     startActivity(intent);
                 } else {
                     showProgress(false);
@@ -114,9 +126,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
     }
 
     private boolean valiDetails() {
-        username.setError(null);
+        email.setError(null);
         password.setError(null);
-        String email = username.getText().toString();
+        username.setError(null);
+        String email = this.email.getText().toString();
+        String musername = this.username.getText().toString();
         String pass = password.getText().toString();
         String fname = firstname.getText().toString();
         String lastname = surname.getText().toString();
@@ -124,18 +138,20 @@ public class UserRegistrationActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
+//        if(!TextUtils.isEmpty(musername) &&)
+
         if (!TextUtils.isEmpty(pass) && !isPasswordValid(pass)) {
             password.setError(getString(R.string.error_invalid_password));
             focusView = password;
             cancel = true;
         }
         if (TextUtils.isEmpty(email)) {
-            username.setError(getString(R.string.error_field_required));
-            focusView = username;
+            this.email.setError(getString(R.string.error_field_required));
+            focusView = this.email;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            username.setError(getString(R.string.error_invalid_email));
-            focusView = username;
+            this.email.setError(getString(R.string.error_invalid_email));
+            focusView = this.email;
             cancel = true;
         } else if(TextUtils.isEmpty(fname)){
             firstname.setError(getString(R.string.error_invalid_email));

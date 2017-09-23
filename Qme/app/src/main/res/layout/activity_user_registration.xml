@@ -81,6 +81,13 @@
                 android:layoutDirection="rtl"></Spinner>
 
             <EditText
+                android:id="@+id/reg_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
+                android:layoutDirection="rtl" />
+
+            <EditText
                 android:id="@+id/reg_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

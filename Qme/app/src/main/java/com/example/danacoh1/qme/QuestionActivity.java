@@ -2,8 +2,12 @@ package com.example.danacoh1.qme;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,7 +27,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     final private String TAG = getClass().getSimpleName();
 
@@ -66,6 +70,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String data = intent.getStringExtra("Question Data");
+        ListView list;
 
         Gson gson = new Gson();
         questionData = gson.fromJson(data, Question.class);
@@ -86,8 +91,7 @@ public class QuestionActivity extends AppCompatActivity {
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.writeToDatabase_question(questionData);
-                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
+                DatabaseUtils.addDataToQuestionFirebase_question(questionData);
 
             }
         });
@@ -99,14 +103,10 @@ public class QuestionActivity extends AppCompatActivity {
                 String tmp = "" + questionData.getNo_counter();
                 n_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.writeToDatabase_question(questionData);
-                create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-
+                DatabaseUtils.addDataToQuestionFirebase_question(questionData);
             }
         });
 
-
-        ListView list;
 
         Integer[] imageId = {
                 R.drawable.dislike,
@@ -162,7 +162,7 @@ public class QuestionActivity extends AppCompatActivity {
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         //Give description
-        pieChart.setDescription("Question Pie Chart");
+//        pieChart.setDescription("Question Pie Chart");
 
         //Disable Hole in the Pie Chart
         //pieChart.setDrawHoleEnabled(false);
@@ -208,6 +208,43 @@ public class QuestionActivity extends AppCompatActivity {
 
 
     //=============================================================================================
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+
+            if(DatabaseUtils.isUserConnected()) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+        }
+
+        else if (id == R.id.nav_questionslist) {
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            startActivity(intent);
+        }
+
+        else if (id == R.id.nav_signout) {
+            DatabaseUtils.signoutCurrentFirebaseUser();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
 
 }

@@ -14,6 +14,8 @@ public class Question {
     private String id;
     private String type;
     private Comments comments;
+    private String questionOwner;
+
 
     //=============================================================================================
 
@@ -23,6 +25,7 @@ public class Question {
         type = "General";
         no_counter = 0;
         comments = new Comments();
+        questionOwner = "";
     }
 
     public Question(String question) {
@@ -31,6 +34,7 @@ public class Question {
         yes_counter = 0;
         no_counter = 0;
         comments = new Comments();
+        questionOwner = "";
     }
     public Question(String question, String type) {
         this.question = question;
@@ -38,6 +42,7 @@ public class Question {
         yes_counter = 0;
         no_counter = 0;
         comments = new Comments();
+        questionOwner = "";
     }
 
     //=============================================================================================
@@ -99,27 +104,14 @@ public class Question {
 
     //=============================================================================================
 
-    public static Question[] getInitQuestions() {
+    public String getQuestionOwner() {
+        return questionOwner;
+    }
 
-        String [] questions_set;
-        questions_set = new String[10];
-        Question[] qset;
-        qset = new Question[10];
-        questions_set[0] = "Do you like camels?";
-        questions_set[1] = "Do you like smartphone?";
-        questions_set[2] = "Do you think pasta is tasty?";
-        questions_set[3] = "Do you like the gui of the app?";
-        questions_set[4] = "Do you love Hamburgers?";
-        questions_set[5] = "Do you want to be Dana Cohen?";
-        questions_set[6] = "Are you going to Britney spears concert?";
-        questions_set[7] = "Can you lift a Woman with one hand?";
-        questions_set[8] = "Are you going to the beach today?";
-        questions_set[9] = "Is Lior Sapir samrt (NO)?";
+    //=============================================================================================
 
-        for(int i = 0; i < 10; i++){
-            qset[i] = new Question(questions_set[i]);
-        }
-        return qset;
+    public void setQuestionOwner(String questionOwner) {
+        this.questionOwner = questionOwner;
     }
 
     //=============================================================================================
@@ -127,6 +119,8 @@ public class Question {
     public String toString(){
         return "id: " + id + "\nquestionView: " + question + "\nyesC: " + yes_counter + "\nnoC: " + no_counter;
     }
+
+    //=============================================================================================
 
     public Comments getComments() {
         return comments;

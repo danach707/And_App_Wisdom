@@ -7,56 +7,69 @@
     android:orientation="vertical"
     tools:context="com.example.danacoh1.qme.NewQuestionActivity">
 
-
-    <ImageView
-        android:id="@+id/header_cover_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="-60dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/welcome_2" />
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/user_profile_photo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_below="@+id/header_cover_image"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="-43dp"
-        android:background="@drawable/profile_circular_border_imageview"
-        android:elevation="5dp"
-        android:padding="20dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/qme_logo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/Question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="מה תרצה לשאול?" />
+            <ImageView
+                android:id="@+id/header_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="-60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/welcome_2" />
+
+            <ImageButton
+                android:id="@+id/user_profile_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_below="@+id/header_cover_image"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="-43dp"
+                android:background="@drawable/profile_circular_border_imageview"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/qme_logo" />
 
 
-    <Spinner
-        android:id="@+id/questionTypes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:entries="@array/typesHE"></Spinner>
+            <EditText
+                android:id="@+id/Question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="מה תרצה לשאול?" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="שמור"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="217dp" />
+
+            <Spinner
+                android:id="@+id/questionTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:entries="@array/typesHE"></Spinner>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="שמור"
+                tools:layout_editor_absoluteX="134dp"
+                tools:layout_editor_absoluteY="217dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

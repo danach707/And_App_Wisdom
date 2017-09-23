@@ -38,7 +38,7 @@ public class NewQuestionActivity extends AppCompatActivity {
                 String qtype = ""+types.getSelectedItem();
                 if(isValid()){
                     Question q = new Question(quest,qtype);
-                    DatabaseUtils.addInitialDataToFirebase(q);
+                    DatabaseUtils.writeToDatabase_question(q);
                     Toast.makeText(getApplicationContext(), "Question submitted!" , Toast.LENGTH_LONG).show();
                     finish();
                 }

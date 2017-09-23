@@ -1,6 +1,7 @@
 package com.example.danacoh1.qme;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class UserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +49,8 @@ public class UserProfileActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    //==============================================================================================//
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,12 +61,16 @@ public class UserProfileActivity extends AppCompatActivity
         }
     }
 
+    //==============================================================================================//
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_profile, menu);
         return true;
     }
+
+    //==============================================================================================//
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -77,33 +87,76 @@ public class UserProfileActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    //==============================================================================================//
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        if (id == R.id.nav_profile) {
+
+            if(DatabaseUtils.isUserConnected()) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+        }
+
+        else if(id == R.id.nav_myQuestions){
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            intent.putExtra("filter", true);
             startActivity(intent);
         }
-//        else if (id == R.id.nav_slideshow) {
-//
-//        }
-        else if (id == R.id.nav_manage) {
 
+        else if (id == R.id.nav_questionslist) {
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            intent.putExtra("filter", false);
+            startActivity(intent);
         }
-//        else if (id == R.id.nav_share) {
-//
-//        }
-        else if (id == R.id.nav_send) {
 
+        else if (id == R.id.nav_signout) {
+            DatabaseUtils.signoutCurrentFirebaseUser();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //==============================================================================================//
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getToken() instead.
+            String uid = user.getUid();
+        }
+        outState.putString("message", "This is my message to be reloaded");
+        super.onSaveInstanceState(outState);
+    }
+
+    //==============================================================================================//
+
 }

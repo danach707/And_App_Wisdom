@@ -54,6 +54,7 @@
     </string-array>
 
     <string-array name="Gender">
+        <item>@string/gender</item>
         <item>@string/female</item>
         <item>@string/male</item>
         <item>@string/nogender</item>

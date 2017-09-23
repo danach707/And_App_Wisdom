@@ -5,7 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,14 +24,13 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class ListActivity extends Activity {
+public class ListActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = getClass().getSimpleName();
     private ListView q_list_view;
     private ArrayList<Question> q_arraylist;
     private DatabaseReference database;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private boolean filter;
 
 
     //=============================================================================================
@@ -40,16 +44,8 @@ public class ListActivity extends Activity {
         q_list_view = (ListView) findViewById(R.id.question_list);
         q_arraylist = new ArrayList<>();
 
-
-
-        Question[] qset = Question.getInitQuestions();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = sharedPreferences.edit();
-        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            DatabaseUtils.addInitialDataToFirebase(qset);
-            editor.putBoolean(Constants.FIRST_RUN, false).apply();
-        }
-
+        Intent intent = getIntent();
+        filter = intent.getBooleanExtra("filter", false);
 
         initList();
         q_list_view.setAdapter(new QuestionAdapter(this, q_arraylist));
@@ -79,9 +75,6 @@ public class ListActivity extends Activity {
     protected void onStop() {
         super.onStop();
 
-        editor.putBoolean(Constants.FIRST_RUN, false);
-        editor.commit();
-
     }
     //=============================================================================================
 
@@ -92,11 +85,20 @@ public class ListActivity extends Activity {
             //TODO - handle download time from server
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                q_arraylist.clear();
                 for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                     Question q = noteSnapshot.getValue(Question.class);
                     Log.d(TAG, q.toString());
-                    q_arraylist.add(q);
+
+                    if(!filter) {
+                        q_arraylist.add(q);
+                    }
+                    else{
+                        if(q.getQuestionOwner().equals(DatabaseUtils.user.getEmail()))
+                            q_arraylist.add(q);
+                    }
                 }
+
                 ((QuestionAdapter) q_list_view.getAdapter()).notifyDataSetChanged();
             }
 
@@ -106,6 +108,42 @@ public class ListActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+
+            if(DatabaseUtils.isUserConnected()) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+        }
+
+        else if (id == R.id.nav_questionslist) {
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            startActivity(intent);
+        }
+
+        else if (id == R.id.nav_signout) {
+            DatabaseUtils.signoutCurrentFirebaseUser();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     //=============================================================================================

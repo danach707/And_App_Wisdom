@@ -3,34 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Profile" />
+            android:title="@string/nav_profile" />
+
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_questionslist"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Questions" />
-        <!--<item-->
-            <!--android:id="@+id/nav_slideshow"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="Chat" />-->
+            android:title="@string/nav_questions" />
+
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_myQuestions"
             android:icon="@drawable/ic_menu_manage"
-            android:title="My Questions" />
+            android:title="@string/nav_myQuestions" />
+
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/nav_signout" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
             <!--<item-->
                 <!--android:id="@+id/nav_share"-->
                 <!--android:icon="@drawable/ic_menu_share"-->
                 <!--android:title="Share Question on Facebook" />-->
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Log out" />
-        </menu>
-    </item>
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="Log out" />-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>
