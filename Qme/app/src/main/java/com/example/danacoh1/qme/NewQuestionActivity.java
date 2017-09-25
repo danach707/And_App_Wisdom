@@ -1,6 +1,5 @@
 package com.example.danacoh1.qme;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +37,8 @@ public class NewQuestionActivity extends AppCompatActivity {
                 String qtype = ""+types.getSelectedItem();
                 if(isValid()){
                     Question q = new Question(quest,qtype);
-                    DatabaseUtils.writeToDatabase_question(q);
+                    System.out.println("  ----------------------  "+ quest + " IM NOT NULL!!");
+                    DatabaseUtils.writeToDatabase(q, Constants.TYPE_QUESTION);
                     Toast.makeText(getApplicationContext(), "Question submitted!" , Toast.LENGTH_LONG).show();
                     finish();
                 }

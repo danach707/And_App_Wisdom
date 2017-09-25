@@ -11,4 +11,10 @@ public class Constants {
     final static public String CHILD_QUESTIONS = "qme-a00a6";
     final static public String[] questionTypes = {"General" , "Politics", "Animals"};
     final static public int LEGAL_AGE = 13;
+
+    final static public String TYPE_USER = "Users";
+    final static public String TYPE_QUESTION = "Questions";
+    final static public String TYPE_COMMENT = "Comments";
+
+
 }

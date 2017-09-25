@@ -19,13 +19,13 @@ import java.util.Vector;
  * Created by danacoh1 on 6/1/2017.
  */
 
-public class QuestionAdapter extends BaseAdapter {
+public class QuestionListAdapter extends BaseAdapter {
 
     private List<Question> data;
     private static LayoutInflater inflater = null;
 
 
-    public QuestionAdapter(@NonNull Context context, @NonNull List data) {
+    public QuestionListAdapter(@NonNull Context context, @NonNull List data) {
 
         this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

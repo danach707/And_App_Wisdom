@@ -91,7 +91,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.addDataToQuestionFirebase_question(questionData);
+                DatabaseUtils.addDataToChildFirebase(questionData, Constants.TYPE_QUESTION);
 
             }
         });
@@ -103,7 +103,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 String tmp = "" + questionData.getNo_counter();
                 n_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.addDataToQuestionFirebase_question(questionData);
+                DatabaseUtils.addDataToChildFirebase(questionData, Constants.TYPE_QUESTION);
             }
         });
 

@@ -2,10 +2,8 @@ package com.example.danacoh1.qme;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import android.provider.SyncStateContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -40,15 +38,17 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference(Constants.TYPE_QUESTION);
         q_list_view = (ListView) findViewById(R.id.question_list);
         q_arraylist = new ArrayList<>();
+        q_list_view.setLongClickable(true);
 
         Intent intent = getIntent();
         filter = intent.getBooleanExtra("filter", false);
 
+
         initList();
-        q_list_view.setAdapter(new QuestionAdapter(this, q_arraylist));
+        q_list_view.setAdapter(new QuestionListAdapter(this, q_arraylist));
 
         q_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,6 +59,15 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
                 String data = gson.toJson(q);
                 intent.putExtra("Question Data", data);
                 startActivity(intent);
+            }
+        });
+
+        q_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),Constants.TYPE_QUESTION);
+                return true;
             }
         });
     }
@@ -88,7 +97,6 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
                 q_arraylist.clear();
                 for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                     Question q = noteSnapshot.getValue(Question.class);
-                    Log.d(TAG, q.toString());
 
                     if(!filter) {
                         q_arraylist.add(q);
@@ -99,7 +107,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
                     }
                 }
 
-                ((QuestionAdapter) q_list_view.getAdapter()).notifyDataSetChanged();
+                ((QuestionListAdapter) q_list_view.getAdapter()).notifyDataSetChanged();
             }
 
             @Override

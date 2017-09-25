@@ -453,18 +453,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return approval;
     }
 
-    private void buildMessage(String msg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
-        alertDialog.setTitle("Are you register?");
-        alertDialog.setMessage(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
 
 
 }

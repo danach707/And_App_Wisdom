@@ -2,6 +2,9 @@ package com.example.danacoh1.qme;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.provider.Settings;
+import android.provider.SyncStateContract;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -9,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -17,50 +21,99 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DatabaseUtils {
 
+    private static final String TAG = "DatabaseUtils";
     //static instance of firebase database
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private static DatabaseReference refQuestion = database.getReference("Questions");
-    private static DatabaseReference refUsers = database.getReference("Users");
+    private static DatabaseReference ref = database.getReference();
     private static Question quest;
-    private static User usr;
     private static Comments comment;
+    private static User users;
 
     //==============================================================================================//
 
-    public static void writeToDatabase_question(Question data) {
-        data.setQuestionOwner(user.getEmail());
-        String key = refQuestion.push().getKey();
-        data.setId(key);
-        refQuestion.child(key).setValue(data);
+    public static void writeToDatabase(Object data, String type) {
+        String key = "";
+        try {
+            switch (type) {
+                case Constants.TYPE_QUESTION:
+                    Question q = (Question) data;
+                    q.setQuestionOwner(user.getEmail());
+                    key = ref.child(type).push().getKey();
+                    q.setId(key);
+                    break;
+                case Constants.TYPE_USER:
+                    User u = (User) data;
+                    key = ref.child(type).push().getKey();
+                    u.setId(key);
+                    break;
+                case Constants.TYPE_COMMENT:
+                    Comments c = (Comments) data;
+                    ref.child(type).push().getKey();
+                    c.setId(key);
+                    break;
+            }
+            ref.child(type).child(key).setValue(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     //==============================================================================================//
 
-    public static void addDataToQuestionFirebase_question(Question data) {
-        refQuestion.child(data.getId()).setValue(data);
+    public static void addDataToChildFirebase(Object data, String type) {
+        try {
+            switch (type) {
+                case Constants.TYPE_QUESTION:
+                    Question q = (Question) data;
+                    ref.child(type).child(q.getId()).setValue(data);
+                    break;
+                case Constants.TYPE_USER:
+                    User u = (User) data;
+                    ref.child(type).child(u.getId()).setValue(data);
+                    break;
+                case Constants.TYPE_COMMENT:
+                    Comments c = (Comments) data;
+                    ref.child(type).child(c.getId()).setValue(data);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //==============================================================================================//
 
-    public static void writeToDatabase_comment(String question_id, String comment) {
-        Question q = readQuestionFromDatabase(question_id);
-        String key = refQuestion.child(question_id).child(q.getComments()
-                .getId())
-                .push()
-                .getKey();
-        refQuestion.child(key).setValue(comment);
+    public static void removeFromDatabase(String key, String type) {
+        ref.child(type).child(key).removeValue();
     }
 
     //==============================================================================================//
 
-    public static Question readQuestionFromDatabase(final String id) {
-        refQuestion = refQuestion.child(id);
-        refQuestion.addValueEventListener(new ValueEventListener() {
+//    public static void writeToDatabase_comment(String question_id, String comment) {
+//        Question q = readQuestionFromDatabase(question_id);
+//        String key = ref.child(question_id).child(q.getComments()
+//                .getId())
+//                .push()
+//                .getKey();
+//        ref.child(key).setValue(comment);
+//    }
+
+    //==============================================================================================//
+
+    public static Object readFromDatabase(final String id, final String type) {
+        ref = ref.child(type).child(id);
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                quest = dataSnapshot.getValue(Question.class);
+                if (type.equals(Constants.TYPE_QUESTION))
+                    quest = dataSnapshot.getValue(Question.class);
+                if (type.equals(Constants.TYPE_COMMENT))
+                    comment = dataSnapshot.getValue(Comments.class);
+                if (type.equals(Constants.TYPE_USER))
+                    users = dataSnapshot.getValue(User.class);
             }
 
             @Override
@@ -68,58 +121,34 @@ public class DatabaseUtils {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-        return quest;
+        if (type.equals(Constants.TYPE_QUESTION))
+            return quest;
+        else if (type.equals(Constants.TYPE_COMMENT))
+            return comment;
+        else
+            return users;
     }
-
     //==============================================================================================//
 
-    public static Comments readCommentFromDatabase(final String Qid, final String Cid) {
-        refQuestion = refQuestion.child(Qid).child(Cid);
-        // Attach a listener to read the data at our posts reference
-        refQuestion.addValueEventListener(new ValueEventListener() {
+    public static User getUserByEmail(final String email) {
+        System.out.println("IM HERE!!!!!!!!!!!! ");
+        ref.child(Constants.TYPE_USER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                comment = dataSnapshot.getValue(Comments.class);
-            }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if(snapshot.getValue(User.class).getEmail().equals(email)){
+                        users = snapshot.getValue(User.class);
+                        break;
+                    }
+                }
 
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
-        return comment;
-    }
-
-    //==============================================================================================//
-
-    public static void writeToDatabase_user(User data) {
-        String key = refUsers.push().getKey();
-        data.setUid(key);
-        refUsers.child(key).setValue(data);
-
-    }
-
-    //==============================================================================================//
-
-    public static void addDataToUserFirebase_user(User data) {
-        refUsers.child(data.getUid()).setValue(data);
-    }
-
-    //==============================================================================================//
-    public static User readUserFromDatabase(final String uid) {
-        refUsers = refUsers.child(uid);
-        refUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                usr = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-        return usr;
+        return users;
     }
 
     //==============================================================================================//

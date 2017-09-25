@@ -20,9 +20,9 @@ public class User {
     private String age;
     private String email;
     private Uri photoUrl;
-    private String uid;
     private String gender;
     private LinkedList<String> askedQuestionsUID;
+    private String id;
 
     public User() {
 
@@ -88,15 +88,6 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getAge() {
         return age;
     }
@@ -121,4 +112,11 @@ public class User {
         this.askedQuestionsUID = askedQuestionsUID;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

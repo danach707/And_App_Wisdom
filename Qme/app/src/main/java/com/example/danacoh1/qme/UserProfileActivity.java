@@ -20,21 +20,46 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class UserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private User current_user;
-    private FirebaseUser userAuth;
+    public FirebaseUser user;
+    TextView user_name;
+    TextView user_nameOnBoard;
+    User currUserLogged;
+    DatabaseReference ref;
+
+    private ArrayList<User> q_arraylist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+
+        /*********   USER  DETAILS   ********/
+//        q_arraylist = new ArrayList<>();
+
+        user_name = (TextView)findViewById(R.id.nav_profile_name);
+        user_nameOnBoard = (TextView)findViewById(R.id.user_profile_name);
+
+        ref = FirebaseDatabase.getInstance().getReference(Constants.TYPE_USER);
+
+//        System.out.println("IMMMMM HHHEEERREEE currUserLogged.getUsername(): "+q_arraylist);
+        //user_name.setText(currUserLogged.getUsername());
+        //user_nameOnBoard.setText(currUserLogged.getFname()+" "+currUserLogged.getLname());
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        userAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +78,8 @@ public class UserProfileActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        try {
-            current_user = DatabaseUtils.readUserFromDatabase(userAuth.getUid());
-        }catch(NullPointerException e){
-            Toast.makeText(getApplicationContext(), "user not exist", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-        Log.d("bla bla", userAuth.getUid());
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        TextView navheader = (TextView) findViewById(R.id.nav_profile_name);
-        if(current_user != null) {
-            navheader.setText(current_user.getFname() + " " + current_user.getLname());
-        }
 
     }
 
@@ -179,5 +192,24 @@ public class UserProfileActivity extends AppCompatActivity
     }
 
     //==============================================================================================//
+
+    private void initList() {
+        ref.addValueEventListener(new ValueEventListener() {
+            //TODO - handle download time from server
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                q_arraylist.clear();
+                for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
+                    User q = noteSnapshot.getValue(User.class);
+                    q_arraylist.add(q);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+    }
 
 }
