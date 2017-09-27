@@ -131,26 +131,28 @@
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/sign_in_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/email_sign_up_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="95dp"
+                    android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/action_sign_up"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/signup_login"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="95dp"
+                    android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/action_sign_in"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/signin_login"
                     android:textStyle="bold" />
 
             </LinearLayout>
