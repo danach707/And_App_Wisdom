@@ -45,8 +45,8 @@
                 android:id="@+id/Question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
                 android:hint="מה תרצה לשאול?" />
 
 
@@ -54,6 +54,7 @@
                 android:id="@+id/questionTypes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:entries="@array/typesHE"></Spinner>
@@ -63,9 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="שמור"
-                tools:layout_editor_absoluteX="134dp"
-                tools:layout_editor_absoluteY="217dp" />
+                android:layout_marginTop="30dp"
+                android:background="@drawable/save_question_activity" />
 
         </LinearLayout>
 
