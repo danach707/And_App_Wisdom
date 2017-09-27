@@ -16,5 +16,8 @@ public class Constants {
     final static public String TYPE_QUESTION = "Questions";
     final static public String TYPE_COMMENT = "Comments";
 
+    final static public int GET_FROM_GALLERY = 1;
+
+
 
 }

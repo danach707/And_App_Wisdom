@@ -40,6 +40,18 @@ public class User {
         askedQuestionsUID = new LinkedList<>();
     }
 
+    public User(User other){
+        this.username = other.username;
+        this.password = other.password;
+        this.fname = other.fname;
+        this.lname = other.lname;
+        this.age = other.age;
+        this.email = other.email;
+        this.photoUrl = other.photoUrl;
+        this.gender = other.gender;
+        askedQuestionsUID = other.askedQuestionsUID;
+    }
+
     public String getUsername() {
         return username;
     }

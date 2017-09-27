@@ -63,7 +63,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + userAuthenticated.getUid());
                 } else {
                     // User is signed out
                     //Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -201,9 +201,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // If sign in fails, display a message to the userAuthenticated. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        // signed in userAuthenticated can be handled in the listener.
                         if (task.isSuccessful()) {
                             buildMessage("User Successfully Registerd");
                         } else {

@@ -2,6 +2,9 @@ package com.example.danacoh1.qme;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.LauncherApps;
+import android.media.projection.MediaProjection;
+import android.os.Handler;
 import android.provider.Settings;
 import android.provider.SyncStateContract;
 import android.util.Log;
@@ -15,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
 /**
  * Created by danacoh1 on 6/3/2017.
  */
 
-public class DatabaseUtils {
+public class DatabaseUtils{
 
     private static final String TAG = "DatabaseUtils";
     //static instance of firebase database
@@ -127,28 +131,6 @@ public class DatabaseUtils {
             return comment;
         else
             return users;
-    }
-    //==============================================================================================//
-
-    public static User getUserByEmail(final String email) {
-        System.out.println("IM HERE!!!!!!!!!!!! ");
-        ref.child(Constants.TYPE_USER).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if(snapshot.getValue(User.class).getEmail().equals(email)){
-                        users = snapshot.getValue(User.class);
-                        break;
-                    }
-                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return users;
     }
 
     //==============================================================================================//
