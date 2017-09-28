@@ -2,20 +2,12 @@ package com.example.danacoh1.qme;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.LauncherApps;
-import android.media.projection.MediaProjection;
-import android.os.Handler;
-import android.provider.Settings;
-import android.provider.SyncStateContract;
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -43,7 +35,7 @@ public class DatabaseUtils{
                 case Constants.TYPE_QUESTION:
                     Question q = (Question) data;
                     q.setQuestionOwner(user.getEmail());
-                    user.getAskedQuestionsUID().add(q.getId());
+                    //user.getAskedQuestionsUID().add(q.getId());
                     key = ref.child(type).push().getKey();
                     q.setId(key);
                     break;
@@ -62,7 +54,6 @@ public class DatabaseUtils{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -92,7 +83,7 @@ public class DatabaseUtils{
     //==============================================================================================//
 
     public static void removeFromDatabase(String key, User user, String type) {
-        user.getAskedQuestionsUID().remove(key);
+        //user.getAskedQuestionsUID().remove(key);
         ref.child(type).child(key).removeValue();
     }
 
@@ -167,5 +158,7 @@ public class DatabaseUtils{
     }
 
     //==============================================================================================//
+
+
 
 }

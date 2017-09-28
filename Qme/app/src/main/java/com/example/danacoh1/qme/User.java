@@ -18,27 +18,18 @@ public class User {
     private String fname;
     private String lname;
     private String age;
-
-    public String getShortStory() {
-        return shortStory;
-    }
-
-    public void setShortStory(String shortStory) {
-        this.shortStory = shortStory;
-    }
-
     private String shortStory;
     private String email;
     private Uri photoUrl;
     private String gender;
-    private LinkedList<String> askedQuestionsUID;
+    //private LinkedList<String> askedQuestionsUID;
     private String id;
 
     public User() {
 
     }
 
-    public User(String username, String password, String fname, String lname, String age, String email, String gender, Uri photoUrl) {
+    public User(String username, String password, String fname, String lname, String age, String email, String gender, String shortStory, Uri photoUrl) {
         this.username = username;
         this.password = password;
         this.fname = fname;
@@ -47,7 +38,8 @@ public class User {
         this.email = email;
         this.photoUrl = photoUrl;
         this.gender = gender;
-        askedQuestionsUID = new LinkedList<>();
+        this.shortStory = shortStory;
+        //askedQuestionsUID = new LinkedList<>();
     }
 
     public User(User other){
@@ -59,7 +51,8 @@ public class User {
         this.email = other.email;
         this.photoUrl = other.photoUrl;
         this.gender = other.gender;
-        askedQuestionsUID = other.askedQuestionsUID;
+        this.shortStory = other.shortStory;
+        //askedQuestionsUID = other.askedQuestionsUID;
     }
 
     public String getUsername() {
@@ -126,13 +119,11 @@ public class User {
         this.gender = gender;
     }
 
-    public LinkedList<String> getAskedQuestionsUID() {
-        return askedQuestionsUID;
-    }
+    //public LinkedList<String> getAskedQuestionsUID() {
+        //return askedQuestionsUID;
+    //}
 
-    public void setAskedQuestionsUID(LinkedList<String> askedQuestionsUID) {
-        this.askedQuestionsUID = askedQuestionsUID;
-    }
+    //public void setAskedQuestionsUID(LinkedList<String> askedQuestionsUID) {this.askedQuestionsUID = askedQuestionsUID;}
 
     public void setId(String id) {
         this.id = id;
@@ -141,4 +132,8 @@ public class User {
     public String getId() {
         return id;
     }
+
+    public String getShortStory() {return shortStory;}
+
+    public void setShortStory(String shortStory) {this.shortStory = shortStory;}
 }

@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 
 public class UserRegistrationActivity extends AppCompatActivity {
 
-    private EditText firstname, surname, age, email, password, password2, username;
+    private EditText firstname, surname, age, email, password, password2,shortStory, username;
     private Spinner gender;
     private Button signup, cancel;
     private FirebaseAuth mAuth;
@@ -50,6 +50,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.reg_username);
         password = (EditText) findViewById(R.id.reg_password);
         password2 = (EditText) findViewById(R.id.reg_password2);
+        shortStory = (EditText) findViewById(R.id.reg_short_story);
         gender = (Spinner) findViewById(R.id.reg_gender);
         signup = (Button) findViewById(R.id.reg_signup);
         cancel = (Button) findViewById(R.id.reg_cancel);
@@ -84,6 +85,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                         age.getText().toString(),
                                         email.getText().toString(),
                                         gender.getSelectedItem().toString(),
+                                        shortStory.getText().toString(),
                                         null);
                     DatabaseUtils.writeToDatabase(user,null, Constants.TYPE_USER);
 

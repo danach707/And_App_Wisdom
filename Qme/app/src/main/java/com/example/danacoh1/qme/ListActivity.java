@@ -1,15 +1,19 @@
 package com.example.danacoh1.qme;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -22,14 +26,14 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-public class ListActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener {
+public class ListActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener ,AdapterView.OnItemLongClickListener{
 
     private final String TAG = getClass().getSimpleName();
     private ListView q_list_view;
     private ArrayList<Question> q_arraylist;
     private DatabaseReference database;
     private boolean filter;
-    private User currUserLoggedIn;
+
 
 
     //=============================================================================================
@@ -46,11 +50,10 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
 
         Intent intent = getIntent();
         filter = intent.getBooleanExtra("filter", false);
-        currUserLoggedIn = (User)DatabaseUtils.readFromDatabase(UserProfileActivity.currUserLogged.getId(), Constants.TYPE_USER);
 
 
-        initList();
-        q_list_view.setAdapter(new QuestionListAdapter(this, q_arraylist));
+
+
 
         q_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,13 +70,14 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
 
         q_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 Log.d(TAG,"inside long press");
-                DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),UserProfileActivity.currUserLogged,Constants.TYPE_QUESTION);
+                buildMessage(pos,"בטוח?");
                 return true;
             }
         });
+        initList();
+        q_list_view.setAdapter(new QuestionListAdapter(this, q_arraylist));
     }
 
     //=============================================================================================
@@ -158,6 +162,30 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
         return true;
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
+    }
+
     //=============================================================================================
+
+    private void buildMessage(final int pos, String field) {
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle("האם למחוק שאלה?");
+        alertDialog.setMessage(field);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),UserProfileActivity.currUserLogged,Constants.TYPE_QUESTION);
+                    }
+                });
+        alertDialog.show();
+    }
 
 }

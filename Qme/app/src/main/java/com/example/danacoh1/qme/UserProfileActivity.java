@@ -1,6 +1,7 @@
 package com.example.danacoh1.qme;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +65,8 @@ public class UserProfileActivity extends AppCompatActivity
 
         /*********   USER  DETAILS   ********/
 
+        currUserLogged = new User();
+
         ref.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -70,10 +75,19 @@ public class UserProfileActivity extends AppCompatActivity
                 for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                     User u = noteSnapshot.getValue(User.class);
                     if (u != null && u.getEmail().equals(userAuthenticated.getEmail())) {
-                        currUserLogged = new User(u);
-
+                        //currUserLogged.setAskedQuestionsUID(u.getAskedQuestionsUID());
+                        currUserLogged.setAge(u.getAge());
+                        currUserLogged.setEmail(u.getEmail());
+                        currUserLogged.setFname(u.getFname());
+                        currUserLogged.setGender(u.getGender());
+                        currUserLogged.setId(u.getId());
+                        currUserLogged.setLname(u.getLname());
+                        currUserLogged.setPassword(u.getPassword());
+                        currUserLogged.setPhotoUrl(u.getPhotoUrl());
+                        currUserLogged.setShortStory(u.getShortStory());
+                        currUserLogged.setUsername(u.getUsername());
                         txt_userName.setText(currUserLogged.getFname() + " " + currUserLogged.getLname());
-                        txt_shortBio.setText(currUserLogged.getGender() + ", " + currUserLogged.getAge());
+                        txt_shortBio.setText(currUserLogged.getShortStory());
                         break;
                     }
                 }
@@ -87,7 +101,7 @@ public class UserProfileActivity extends AppCompatActivity
         });
 
         /*********** USER  SET PHOTO *********/
-        //System.out.println("@@@@@@@@@@UserProfileActivity.currUserLogged.getId(): "+currUserLogged);
+
         userProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +109,6 @@ public class UserProfileActivity extends AppCompatActivity
                 startActivityForResult(intent, GET_FROM_GALLERY);
             }
         });
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,6 +121,13 @@ public class UserProfileActivity extends AppCompatActivity
                         .setAction("Action", null).show();
                 Intent intent = new Intent(getApplicationContext(), NewQuestionActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        txt_shortBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -230,7 +250,7 @@ public class UserProfileActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode== GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             currUserLogged.setPhotoUrl(selectedImage);
             Bitmap bitmap;
@@ -242,6 +262,49 @@ public class UserProfileActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+    }
+
+    //==============================================================================================//
+    private void callValidationDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.alert_connect_layout);
+        dialog.setCancelable(false);
+
+        dialog.setTitle("Login");
+
+        final EditText edit_ip_address = (EditText) dialog.findViewById(R.id.alert_ip_address);
+        final EditText edit_username = (EditText)dialog.findViewById(R.id.alert_username);
+        final EditText edit_password = (EditText)dialog.findViewById(R.id.alert_password);
+        Button connect = (Button)dialog.findViewById(R.id.alert_btn_connect);
+        Button cancel = (Button)dialog.findViewById(R.id.alert_btn_cancel);
+
+
+        connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                validateIP = edit_ip_address.getText().toString();
+                validateUsername = edit_username.getText().toString();
+                validatePass = edit_password.getText().toString();
+
+                if(validateIP.equals("")){
+                    Toast.makeText(this., "No IP address entered", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                knowledge = false;
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
 }

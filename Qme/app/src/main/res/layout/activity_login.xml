@@ -101,6 +101,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:padding="20dp"
+                    android:text="danach@gmail.com"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -120,6 +121,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:padding="20dp"
+                    android:text="qwerty"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
