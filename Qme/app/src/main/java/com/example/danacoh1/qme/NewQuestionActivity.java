@@ -38,7 +38,7 @@ public class NewQuestionActivity extends AppCompatActivity {
                 if(isValid()){
                     Question q = new Question(quest,qtype);
                     System.out.println("  ----------------------  "+ quest + " IM NOT NULL!!");
-                    DatabaseUtils.writeToDatabase(q, Constants.TYPE_QUESTION);
+                    DatabaseUtils.writeToDatabase(q,UserProfileActivity.currUserLogged Constants.TYPE_QUESTION);
                     Toast.makeText(getApplicationContext(), "Question submitted!" , Toast.LENGTH_LONG).show();
                     finish();
                 }
