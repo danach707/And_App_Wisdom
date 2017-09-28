@@ -45,7 +45,7 @@
             <EditText
                 android:id="@+id/Question"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"
                 android:hint="מה תרצה לשאול?" />
@@ -54,7 +54,7 @@
             <Spinner
                 android:id="@+id/questionTypes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -62,8 +62,8 @@
 
             <Button
                 android:id="@+id/submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:alpha="0.9"

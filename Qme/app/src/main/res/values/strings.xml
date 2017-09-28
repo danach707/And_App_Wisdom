@@ -49,6 +49,7 @@
 
 
     <string name="prompt_email">דואר אלקטרוני</string>
+    <string name="short_story">קצת על עצמך במשפט</string>
     <string name="prompt_password">סיסמה</string>
     <string name="action_sign_in">כניסה</string>
     <string name="action_sign_up">הרשמה רגילה</string>

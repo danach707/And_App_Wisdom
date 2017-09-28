@@ -46,7 +46,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
 
         Intent intent = getIntent();
         filter = intent.getBooleanExtra("filter", false);
-        currUserLoggedIn = (User)DatabaseUtils.readFromDatabase(intent.getStringExtra("userId"), Constants.TYPE_USER);
+        currUserLoggedIn = (User)DatabaseUtils.readFromDatabase(UserProfileActivity.currUserLogged.getId(), Constants.TYPE_USER);
 
 
         initList();

@@ -18,6 +18,16 @@ public class User {
     private String fname;
     private String lname;
     private String age;
+
+    public String getShortStory() {
+        return shortStory;
+    }
+
+    public void setShortStory(String shortStory) {
+        this.shortStory = shortStory;
+    }
+
+    private String shortStory;
     private String email;
     private Uri photoUrl;
     private String gender;

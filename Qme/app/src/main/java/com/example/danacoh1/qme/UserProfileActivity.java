@@ -71,8 +71,10 @@ public class UserProfileActivity extends AppCompatActivity
                     User u = noteSnapshot.getValue(User.class);
                     if (u != null && u.getEmail().equals(userAuthenticated.getEmail())) {
                         currUserLogged = new User(u);
+
                         txt_userName.setText(currUserLogged.getFname() + " " + currUserLogged.getLname());
                         txt_shortBio.setText(currUserLogged.getGender() + ", " + currUserLogged.getAge());
+                        break;
                     }
                 }
             }
@@ -85,7 +87,7 @@ public class UserProfileActivity extends AppCompatActivity
         });
 
         /*********** USER  SET PHOTO *********/
-
+        //System.out.println("@@@@@@@@@@UserProfileActivity.currUserLogged.getId(): "+currUserLogged);
         userProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +185,7 @@ public class UserProfileActivity extends AppCompatActivity
         } else if (id == R.id.nav_questionslist) {
             Intent intent = new Intent(getApplicationContext(), ListActivity.class);
             intent.putExtra("filter", false);
-            intent.putExtra("userId", currUserLogged.getId());
+            //intent.putExtra("userId", currUserLogged.getId());
             startActivity(intent);
         } else if (id == R.id.nav_signout) {
             DatabaseUtils.signoutCurrentFirebaseUser();
