@@ -48,8 +48,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"
-                android:hint="מה תרצה לשאול?" />
-
+                android:hint="מה ברצונך לשאול?" />
 
             <Spinner
                 android:id="@+id/questionTypes"
