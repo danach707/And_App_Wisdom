@@ -183,6 +183,7 @@ public class UserProfileActivity extends AppCompatActivity
         } else if (id == R.id.nav_questionslist) {
             Intent intent = new Intent(getApplicationContext(), ListActivity.class);
             intent.putExtra("filter", false);
+            intent.putExtra("userId", currUserLogged.getId());
             startActivity(intent);
         } else if (id == R.id.nav_signout) {
             DatabaseUtils.signoutCurrentFirebaseUser();

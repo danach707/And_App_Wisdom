@@ -29,6 +29,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
     private ArrayList<Question> q_arraylist;
     private DatabaseReference database;
     private boolean filter;
+    private User currUserLoggedIn;
 
 
     //=============================================================================================
@@ -45,6 +46,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
 
         Intent intent = getIntent();
         filter = intent.getBooleanExtra("filter", false);
+        currUserLoggedIn = (User)DatabaseUtils.readFromDatabase(intent.getStringExtra("userId"), Constants.TYPE_USER);
 
 
         initList();
@@ -53,6 +55,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
         q_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG,"inside short press");
                 Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
                 Gson gson = new Gson();
                 Question q = (Question) parent.getItemAtPosition(position);
@@ -66,6 +69,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
+                Log.d(TAG,"inside long press");
                 DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),Constants.TYPE_QUESTION);
                 return true;
             }

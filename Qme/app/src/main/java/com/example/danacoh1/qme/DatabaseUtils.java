@@ -36,13 +36,14 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static void writeToDatabase(Object data, String type) {
+    public static void writeToDatabase(Object data, User user, String type) {
         String key = "";
         try {
             switch (type) {
                 case Constants.TYPE_QUESTION:
                     Question q = (Question) data;
                     q.setQuestionOwner(user.getEmail());
+                    user.getAskedQuestionsUID().add(q.getId());
                     key = ref.child(type).push().getKey();
                     q.setId(key);
                     break;
@@ -90,7 +91,8 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static void removeFromDatabase(String key, String type) {
+    public static void removeFromDatabase(String key, User user, String type) {
+        user.getAskedQuestionsUID().remove(key);
         ref.child(type).child(key).removeValue();
     }
 
