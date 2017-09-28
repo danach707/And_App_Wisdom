@@ -70,7 +70,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
                 Log.d(TAG,"inside long press");
-                DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),Constants.TYPE_QUESTION);
+                DatabaseUtils.removeFromDatabase(q_arraylist.get(pos).getId(),UserProfileActivity.currUserLogged,Constants.TYPE_QUESTION);
                 return true;
             }
         });

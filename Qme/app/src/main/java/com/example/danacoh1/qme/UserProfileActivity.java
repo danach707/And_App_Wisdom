@@ -40,11 +40,11 @@ import static com.example.danacoh1.qme.Constants.GET_FROM_GALLERY;
 public class UserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static User currUserLogged;
     private final String TAG = getClass().getSimpleName();
     private FirebaseUser userAuthenticated;
     private TextView txt_shortBio;
     private TextView txt_userName;
-    private User currUserLogged;
     private DatabaseReference ref;
     private ImageButton userProfilePhoto;
 
