@@ -160,7 +160,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
             password.setError(getString(R.string.error_invalid_password));
             focusView = password;
             cancel = true;
-        }if (!TextUtils.isEmpty(pass2) || !pass2.equals(pass)) {
+        }
+        if (!TextUtils.isEmpty(pass2) || !pass2.equals(pass)) {
             password2.setError(getString(R.string.error_invalid_password2));
             focusView = password2;
             cancel = true;
@@ -168,6 +169,17 @@ public class UserRegistrationActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(userage) && Integer.parseInt(userage) < Constants.LEGAL_AGE) {
             age.setError(getString(R.string.error_invalid_age));
             focusView = age;
+            cancel = true;
+        }
+        if(!TextUtils.isEmpty(musername)){
+            username.setError(getString(R.string.error_field_required));
+            focusView = username;
+            cancel = true;
+        }
+        else if(DatabaseUtils.isExistInDatabase(musername,Constants.CHILD_USERNAME,Constants.TYPE_USER)){
+            Toast.makeText(getApplicationContext(),"inside usename is invalid condition", Toast.LENGTH_LONG).show();
+            username.setError(getString(R.string.error_invalid_username));
+            focusView = username;
             cancel = true;
         }
         if (TextUtils.isEmpty(email)) {
@@ -206,7 +218,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() >= Constants.PASSWORD_MIN_LEN;
     }
 
 

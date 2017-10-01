@@ -2,6 +2,8 @@ package com.example.danacoh1.qme;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,8 @@ public class DatabaseUtils{
     private static Question quest;
     private static Comments comment;
     private static User users;
+    private static boolean valExistInDatabase;
+
 
     //==============================================================================================//
 
@@ -158,6 +162,39 @@ public class DatabaseUtils{
     }
 
     //==============================================================================================//
+
+    public static boolean isExistInDatabase(final String data, final String field, String type){
+        ref = ref.child(type);
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
+                    String val = noteSnapshot.child(field).getValue(String.class);
+
+                    if(val != null){
+                        Log.d(TAG, "----Val: " + val + "----");
+                        if(val.equals(data)) {
+                            valExistInDatabase = true;
+                            break;
+                        }
+                    }else{
+                        Log.d(TAG, "----Child is not exist on database! check parameters sent----");
+                    }
+
+                }
+                valExistInDatabase = false;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        });
+
+        return valExistInDatabase;
+    }
 
 
 
