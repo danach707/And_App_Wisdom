@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity
         txt_shortBio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                alertSetAboutYouself();
             }
         });
 
@@ -265,46 +266,39 @@ public class UserProfileActivity extends AppCompatActivity
     }
 
     //==============================================================================================//
-    private void callValidationDialog(){
+    private void alertSetAboutYouself(){
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.alert_connect_layout);
+        dialog.setContentView(R.layout.dialog_profile_edit_short_story);
         dialog.setCancelable(false);
 
-        dialog.setTitle("Login");
+        dialog.setTitle(getResources().getString(R.string.TellAboutYourself));
 
-        final EditText edit_ip_address = (EditText) dialog.findViewById(R.id.alert_ip_address);
-        final EditText edit_username = (EditText)dialog.findViewById(R.id.alert_username);
-        final EditText edit_password = (EditText)dialog.findViewById(R.id.alert_password);
-        Button connect = (Button)dialog.findViewById(R.id.alert_btn_connect);
-        Button cancel = (Button)dialog.findViewById(R.id.alert_btn_cancel);
+        final EditText edit_about_yourself = (EditText) dialog.findViewById(R.id.alrt_edit_tellAboutYourself);
+        ImageView yes = (ImageView) dialog.findViewById(R.id.alrt_btn_Yes);
+        ImageView no = (ImageView) dialog.findViewById(R.id.alrt_btn_No);
 
-
-        connect.setOnClickListener(new View.OnClickListener() {
+        yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                validateIP = edit_ip_address.getText().toString();
-                validateUsername = edit_username.getText().toString();
-                validatePass = edit_password.getText().toString();
-
-                if(validateIP.equals("")){
-                    Toast.makeText(this., "No IP address entered", Toast.LENGTH_LONG).show();
-                }
-
-
+                String about = edit_about_yourself.getText().toString();
+                currUserLogged.setShortStory(about);
+                DatabaseUtils.addDataToChildFirebase(currUserLogged,Constants.TYPE_USER);
+                txt_shortBio.setText(about);
+                dialog.cancel();
+                Toast.makeText(getApplicationContext(), "Nice frase ;)", Toast.LENGTH_LONG).show();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                knowledge = false;
-                dialog.dismiss();
+                dialog.cancel();
+                Toast.makeText(getApplicationContext(), "Maybe next time..", Toast.LENGTH_LONG).show();
             }
         });
 
         dialog.show();
-
     }
 
 }

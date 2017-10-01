@@ -79,7 +79,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
     private boolean approval;
+    private boolean emailVerified;
+
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -91,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        DatabaseUtils.signoutCurrentFirebaseUser();
         mAuth = FirebaseAuth.getInstance();
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -389,8 +392,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 startActivity(intent);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(emailVerified){
+                    buildMessageVerification();
+                }else{
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+                DatabaseUtils.signoutCurrentFirebaseUser();
                 //buildMessageSignUp(mEmail, mPassword);
             }
         }
@@ -403,40 +411,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    private void buildMessageSignUp(final String email, final String password) {
-        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog)).create();
-        alertDialog.setTitle("Sign up for Qme");
-        alertDialog.setMessage("Do you want to Add new account:\nEmail: " + email + "\nPassword: " + password);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        writeUser(email, password);
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-    public void writeUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                        } else {
-                        }
-                    }
-                });
-    }
-
 
     public boolean signInUser(String email, String password) {
         approval = false;
+        emailVerified = false;
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -445,15 +423,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             approval = true;
                         }
                     }
+
                 });
+
         try {
             Thread.sleep(3200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        approval = checkIfEmailVerified();
         return approval;
     }
 
+    private boolean checkIfEmailVerified()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            if (user.isEmailVerified())
+            {
+                return true;
+            }
+            else
+            {
+                emailVerified = true;
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void buildMessageVerification() {
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle(getResources().getString(R.string.send_verification_message_error));
+        alertDialog.setMessage(getResources().getString(R.string.send_verification_message));
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendVerificationEmail();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void sendVerificationEmail() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null)
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Verification Email sent to: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed sending Email to: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+    }
 
 
 }

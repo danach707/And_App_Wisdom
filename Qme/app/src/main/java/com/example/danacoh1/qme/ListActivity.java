@@ -72,7 +72,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 Log.d(TAG,"inside long press");
-                buildMessage(pos,"בטוח?");
+                buildMessage(pos, getResources().getString(R.string.DeleteQuestion));
                 return true;
             }
         });
@@ -171,7 +171,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
 
     private void buildMessage(final int pos, String field) {
         android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
-        alertDialog.setTitle("האם למחוק שאלה?");
+        alertDialog.setTitle(getResources().getString(R.string.DeleteQuestionTitleAlert));
         alertDialog.setMessage(field);
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                 new DialogInterface.OnClickListener() {

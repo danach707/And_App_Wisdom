@@ -38,6 +38,7 @@
     <string name="action_sign_up_Failed">Register Failed</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password2">Password does not matcht</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -74,6 +75,19 @@
     <string name="female">נקבה</string>
     <string name="gender">מין</string>
     <string name="nogender">אחר</string>
+
+
+    <string name="DeleteQuestion">בטוח?</string>
+    <string name="DeleteQuestionTitleAlert">האם למחוק את השאלה?</string>
+    <string name="YesButtonAlert">כן</string>
+    <string name="NoButtonAlert">לא</string>
+    <string name="TellAboutYourself">ספר על עצמך..</string>
+
+
+
+
+    <string name="send_verification_message_error">עליך לאמת את המשתמש במייל</string>
+    <string name="send_verification_message">האם לשלוח אימות נוסף למייל?</string>
 
 
 
