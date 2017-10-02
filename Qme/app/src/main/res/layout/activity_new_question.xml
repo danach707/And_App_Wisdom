@@ -44,27 +44,55 @@
 
             <EditText
                 android:id="@+id/Question"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_width="335dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"
+
                 android:hint="מה ברצונך לשאול?" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/imgView"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/upload_picture_new_question"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="170dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/upload_picture_question"
+                    android:textSize="17sp"
+                    android:textStyle="normal|bold" />
+
+            </LinearLayout>
+
 
             <Spinner
                 android:id="@+id/questionTypes"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:entries="@array/typesHE"></Spinner>
+                android:entries="@array/typesHE">
+
+            </Spinner>
 
             <Button
                 android:id="@+id/submit"
                 android:layout_width="110dp"
-                android:layout_height="45dp"
+                android:layout_height="43dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:alpha="0.9"
                 android:background="@drawable/save_question_activity" />
 

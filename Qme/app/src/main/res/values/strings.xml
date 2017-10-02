@@ -85,6 +85,9 @@
     <string name="TellAboutYourself">ספר על עצמך..</string>
 
 
+    <string name="upload_picture_question">העלה תמונה לשאלה</string>
+
+
     <string name="addComment">הוסף תגובה</string>
     <string name="EmptyComment">לא ניתן להוסיף תגובה ריקה</string>
 
