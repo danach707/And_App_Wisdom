@@ -94,7 +94,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                             gender.getSelectedItem().toString(),
                             shortStory.getText().toString(),
                             null);
-                    DatabaseUtils.writeToDatabase(user, null, Constants.TYPE_USER);
+                    DatabaseUtils.writeToDatabase(user,null, Constants.TYPE_USER);
 
                     mAuthTask = new UserSignUpTask(email.getText().toString(), password.getText().toString());
                     mAuthTask.execute((Void) null);

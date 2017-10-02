@@ -283,7 +283,7 @@ public class UserProfileActivity extends AppCompatActivity
 
                 String about = edit_about_yourself.getText().toString();
                 currUserLogged.setShortStory(about);
-                DatabaseUtils.addDataToChildFirebase(currUserLogged,Constants.TYPE_USER);
+                DatabaseUtils.addDataToChildFirebase(currUserLogged,null,Constants.TYPE_USER);
                 txt_shortBio.setText(about);
                 dialog.cancel();
                 Toast.makeText(getApplicationContext(), "Nice frase ;)", Toast.LENGTH_LONG).show();

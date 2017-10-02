@@ -22,7 +22,7 @@ public class User {
     private String email;
     private Uri photoUrl;
     private String gender;
-    //private LinkedList<String> askedQuestionsUID;
+    private String askedQuestionsUID;
     private String id;
 
     public User() {
@@ -39,7 +39,7 @@ public class User {
         this.photoUrl = photoUrl;
         this.gender = gender;
         this.shortStory = shortStory;
-        //askedQuestionsUID = new LinkedList<>();
+        this.askedQuestionsUID="";
     }
 
     public User(User other){
@@ -52,7 +52,7 @@ public class User {
         this.photoUrl = other.photoUrl;
         this.gender = other.gender;
         this.shortStory = other.shortStory;
-        //askedQuestionsUID = other.askedQuestionsUID;
+        this.askedQuestionsUID="";
     }
 
     public String getUsername() {
@@ -119,11 +119,9 @@ public class User {
         this.gender = gender;
     }
 
-    //public LinkedList<String> getAskedQuestionsUID() {
-        //return askedQuestionsUID;
-    //}
+    public String getAskedQuestionsUID() {return askedQuestionsUID;}
 
-    //public void setAskedQuestionsUID(LinkedList<String> askedQuestionsUID) {this.askedQuestionsUID = askedQuestionsUID;}
+    public void setAskedQuestionsUID(String askedQuestionsUID) {this.askedQuestionsUID = askedQuestionsUID;}
 
     public void setId(String id) {
         this.id = id;
@@ -136,4 +134,6 @@ public class User {
     public String getShortStory() {return shortStory;}
 
     public void setShortStory(String shortStory) {this.shortStory = shortStory;}
+
+
 }

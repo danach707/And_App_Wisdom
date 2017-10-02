@@ -3,6 +3,7 @@ package com.example.danacoh1.qme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -11,6 +12,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+
+import java.util.LinkedList;
 
 
 /**
@@ -39,7 +43,6 @@ public class DatabaseUtils{
                 case Constants.TYPE_QUESTION:
                     Question q = (Question) data;
                     q.setQuestionOwner(user.getEmail());
-                    //user.getAskedQuestionsUID().add(q.getId());
                     key = ref.child(type).push().getKey();
                     q.setId(key);
                     break;
@@ -48,22 +51,16 @@ public class DatabaseUtils{
                     key = ref.child(type).push().getKey();
                     u.setId(key);
                     break;
-                case Constants.TYPE_COMMENT:
-                    Comments c = (Comments) data;
-                    ref.child(type).push().getKey();
-                    c.setId(key);
-                    break;
             }
             ref.child(type).child(key).setValue(data);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     //==============================================================================================//
 
-    public static void addDataToChildFirebase(Object data, String type) {
+    public static void addDataToChildFirebase(Object data,Object extraData, String type) {
         try {
             switch (type) {
                 case Constants.TYPE_QUESTION:
@@ -75,8 +72,10 @@ public class DatabaseUtils{
                     ref.child(type).child(u.getId()).setValue(data);
                     break;
                 case Constants.TYPE_COMMENT:
-                    Comments c = (Comments) data;
-                    ref.child(type).child(c.getId()).setValue(data);
+                    Question c = (Question) data;
+                    Comments com = (Comments)extraData;
+                    data = handleComment(com,c,0,0);
+                    ref.child(Constants.TYPE_QUESTION).child(c.getId()).setValue(data);
                     break;
             }
         } catch (Exception e) {
@@ -87,7 +86,6 @@ public class DatabaseUtils{
     //==============================================================================================//
 
     public static void removeFromDatabase(String key, User user, String type) {
-        //user.getAskedQuestionsUID().remove(key);
         ref.child(type).child(key).removeValue();
     }
 
@@ -196,6 +194,38 @@ public class DatabaseUtils{
         return valExistInDatabase;
     }
 
+    public static String transformToString(Object obj){
+        Gson gson = new Gson();
+        return gson.toJson(obj);
+    }
+
+    public static Object transformToObject(String data, String type){
+        Gson gson = new Gson();
+        if(type.equals(Constants.TYPE_COMMENT))
+            return gson.fromJson(data,Comments.class);
+        if(type.equals(Constants.TYPE_USER))
+            return gson.fromJson(data,User.class);
+        if(type.equals(Constants.TYPE_QUESTION))
+            return gson.fromJson(data,Question.class);
+        if(type.equals(Constants.TYPE_STRING_LINKED))
+            return gson.fromJson(data,Constants.STRING_LIST_TYPE);
+        return null;
+    }
+
+    private static Question handleComment(Comments com, Question q, int numOfLikes,int numOfUnLikes){
+        if(numOfLikes == 0 && numOfUnLikes == 0) {
+            com.setQuestionId(q.getId());
+            com.setUserId(UserProfileActivity.currUserLogged.getId());
+        }else{
+            com.setNum_of_likes(numOfLikes);
+            com.setNum_of_unlikes(numOfUnLikes);
+        }
+
+        LinkedList<String> link = new Gson().fromJson(q.getComments(),Constants.STRING_LIST_TYPE);
+        link.add(transformToString(com));
+        q.setComments(transformToString(link));
+        return q;
+    }
 
 
 }

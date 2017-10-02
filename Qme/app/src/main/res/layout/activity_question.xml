@@ -19,16 +19,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/yes_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="20dp"
             android:layout_marginEnd="80dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/yes_select" />
 
 
@@ -36,8 +36,8 @@
             android:id="@+id/no_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="80dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="80dp"
             android:background="@drawable/no_select" />
 
     </LinearLayout>
@@ -57,7 +57,8 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="yes count" />
+            android:textStyle="bold"
+            android:text="" />
 
         <TextView
             android:id="@+id/no_count"
@@ -67,26 +68,48 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="no count" />
+            android:textStyle="bold"
+            android:text="" />
 
 
     </LinearLayout>
 
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+        <Button
+            android:id="@+id/add_comment_action"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-5dp"
+            android:layout_weight="1"
+            android:background="@drawable/add_comment" />
 
-        </ListView>
+        <EditText
+            android:id="@+id/add_comment_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:hint="@string/addComment" />
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
 
 
 </LinearLayout>

@@ -85,6 +85,10 @@
     <string name="TellAboutYourself">ספר על עצמך..</string>
 
 
+    <string name="addComment">הוסף תגובה</string>
+    <string name="EmptyComment">לא ניתן להוסיף תגובה ריקה</string>
+
+
 
 
     <string name="send_verification_message_error">עליך לאמת את המשתמש במייל</string>

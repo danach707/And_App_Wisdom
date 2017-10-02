@@ -23,8 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class ListActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener ,AdapterView.OnItemLongClickListener{
 
@@ -60,11 +63,10 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG,"inside short press");
                 Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
-                Gson gson = new Gson();
-                Question q = (Question) parent.getItemAtPosition(position);
-                String data = gson.toJson(q);
+                String data = DatabaseUtils.transformToString(parent.getItemAtPosition(position));
                 intent.putExtra("Question Data", data);
                 startActivity(intent);
+
             }
         });
 

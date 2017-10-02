@@ -7,10 +7,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +34,9 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     final private String TAG = getClass().getSimpleName();
 
     TextView questionView, y_c, n_c;
-    Button y_b, n_b;
+    Button y_b, n_b, add_comment_action;
+    EditText add_comment_text;
 
-
-    DatabaseReference myRef;
-
-    private DatabaseReference mDatabase;
-    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Question questionData;
 
@@ -57,16 +55,15 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        setContentView(R.layout.activity_question);
 
         y_b = (Button)findViewById(R.id.yes_button);
         n_b = (Button)findViewById(R.id.no_button);
         questionView = (TextView)findViewById(R.id.Question);
         y_c = (TextView)findViewById(R.id.yes_count);
         n_c = (TextView)findViewById(R.id.no_count);
+        add_comment_action = (Button)findViewById(R.id.add_comment_action);
+        add_comment_text = (EditText)findViewById(R.id.add_comment_text);
 
         Intent intent = getIntent();
         String data = intent.getStringExtra("Question Data");
@@ -91,7 +88,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.addDataToChildFirebase(questionData, Constants.TYPE_QUESTION);
+                DatabaseUtils.addDataToChildFirebase(questionData,null, Constants.TYPE_QUESTION);
 
             }
         });
@@ -103,7 +100,21 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 String tmp = "" + questionData.getNo_counter();
                 n_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.addDataToChildFirebase(questionData, Constants.TYPE_QUESTION);
+                DatabaseUtils.addDataToChildFirebase(questionData,null, Constants.TYPE_QUESTION);
+            }
+        });
+
+        add_comment_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(add_comment_text.getText().toString())){
+                    add_comment_text.setError(getString(R.string.EmptyComment));
+                    add_comment_text.requestFocus();;
+                }
+                else{
+                    Comments com = new Comments(add_comment_text.getText().toString());
+                    DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
+                }
             }
         });
 
