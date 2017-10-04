@@ -20,7 +20,7 @@ public class Constants {
 
     final static public String TYPE_USER = "Users";
     final static public String TYPE_QUESTION = "Questions";
-    final static public String TYPE_COMMENT = "Comments";
+    final static public String TYPE_COMMENT = "Comment";
     final static public String TYPE_STRING_LINKED = "LinkedList<String>";
     final static public Type STRING_LIST_TYPE = new TypeToken<LinkedList<String>>(){}.getType();
 

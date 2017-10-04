@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by danacoh1 on 6/5/2017.
  */
 
-public class Comments {
+public class Comment {
 
     private String com_text;
     private String id;
@@ -15,13 +15,13 @@ public class Comments {
     private int num_of_likes;
     private int num_of_unlikes;
 
-    public Comments() {
+    public Comment() {
     }
 
-    public Comments(String text) {
+    public Comment(String text) {
         this.com_text = com_text;
     }
-    public Comments(String com_text, String id, String userId, String questionId) {
+    public Comment(String com_text, String id, String userId, String questionId) {
         this.com_text = com_text;
         this.id = id;
         this.userId = userId;

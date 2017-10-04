@@ -3,7 +3,6 @@ package com.example.danacoh1.qme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
-import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,6 +12,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.LinkedList;
 
@@ -29,7 +31,7 @@ public class DatabaseUtils{
     public static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private static DatabaseReference ref = database.getReference();
     private static Question quest;
-    private static Comments comment;
+    private static Comment comment;
     private static User users;
     private static boolean valExistInDatabase;
 
@@ -73,7 +75,7 @@ public class DatabaseUtils{
                     break;
                 case Constants.TYPE_COMMENT:
                     Question c = (Question) data;
-                    Comments com = (Comments)extraData;
+                    Comment com = (Comment)extraData;
                     data = handleComment(com,c,0,0);
                     ref.child(Constants.TYPE_QUESTION).child(c.getId()).setValue(data);
                     break;
@@ -110,7 +112,7 @@ public class DatabaseUtils{
                 if (type.equals(Constants.TYPE_QUESTION))
                     quest = dataSnapshot.getValue(Question.class);
                 if (type.equals(Constants.TYPE_COMMENT))
-                    comment = dataSnapshot.getValue(Comments.class);
+                    comment = dataSnapshot.getValue(Comment.class);
                 if (type.equals(Constants.TYPE_USER))
                     users = dataSnapshot.getValue(User.class);
             }
@@ -202,7 +204,7 @@ public class DatabaseUtils{
     public static Object transformToObject(String data, String type){
         Gson gson = new Gson();
         if(type.equals(Constants.TYPE_COMMENT))
-            return gson.fromJson(data,Comments.class);
+            return gson.fromJson(data,Comment.class);
         if(type.equals(Constants.TYPE_USER))
             return gson.fromJson(data,User.class);
         if(type.equals(Constants.TYPE_QUESTION))
@@ -212,7 +214,7 @@ public class DatabaseUtils{
         return null;
     }
 
-    private static Question handleComment(Comments com, Question q, int numOfLikes,int numOfUnLikes){
+    private static Question handleComment(Comment com, Question q, int numOfLikes, int numOfUnLikes){
         if(numOfLikes == 0 && numOfUnLikes == 0) {
             com.setQuestionId(q.getId());
             com.setUserId(UserProfileActivity.currUserLogged.getId());
@@ -221,7 +223,12 @@ public class DatabaseUtils{
             com.setNum_of_unlikes(numOfUnLikes);
         }
 
-        LinkedList<String> link = new Gson().fromJson(q.getComments(),Constants.STRING_LIST_TYPE);
+        String [] link = new String[0];
+        try {
+            link = new JSONArray(q.getComments());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         link.add(transformToString(com));
         q.setComments(transformToString(link));
         return q;

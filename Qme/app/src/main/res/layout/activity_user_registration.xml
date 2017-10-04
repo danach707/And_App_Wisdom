@@ -125,29 +125,13 @@
                 android:hint="@string/username"
                 android:layoutDirection="rtl" />
 
-            <com.github.florent37.materialtextfield.MaterialTextField
+
+            <EditText
+                android:id="@+id/reg_password"
                 android:layout_width="match_parent"
-                android:layout_height="95dp"
-                android:textDirection="rtl"
-                android:layout_marginTop="-45dp"
-                app:mtf_labelColor="#666"
-                app:mtf_image="@drawable/edit_short_story_profile"
-                >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="סיסמה"
-                    android:textColor="#333"
-                    android:textSize="10sp" />
-
-            </com.github.florent37.materialtextfield.MaterialTextField>
-            <!--<EditText-->
-                <!--android:id="@+id/reg_password"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="@string/prompt_password"-->
-                <!--android:layoutDirection="rtl" />-->
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:layoutDirection="rtl" />
 
             <EditText
                 android:id="@+id/reg_password2"

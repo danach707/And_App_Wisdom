@@ -23,11 +23,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class QuestionActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -40,15 +39,8 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     private SharedPreferences.Editor editor;
     private Question questionData;
 
-    private String[] web = {
-            "Google Plus",
-            "Twitter",
-            "Windows",
-            "Bing",
-            "Itunes",
-            "Wordpress",
-            "Drupal"
-    };
+    private LinkedList<Comment> comments;
+    private CustomList adapter;
 
 //=============================================================================================
 
@@ -68,6 +60,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         Intent intent = getIntent();
         String data = intent.getStringExtra("Question Data");
         ListView list;
+        comments = new LinkedList<>();
 
         Gson gson = new Gson();
         questionData = gson.fromJson(data, Question.class);
@@ -104,33 +97,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        add_comment_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(TextUtils.isEmpty(add_comment_text.getText().toString())){
-                    add_comment_text.setError(getString(R.string.EmptyComment));
-                    add_comment_text.requestFocus();;
-                }
-                else{
-                    Comments com = new Comments(add_comment_text.getText().toString());
-                    DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
-                }
-            }
-        });
-
-
-        Integer[] imageId = {
-                R.drawable.dislike,
-                R.drawable.background_main,
-                R.drawable.ic_add_circle_black_24dp,
-                R.drawable.like,
-                R.drawable.like,
-                R.drawable.qme_logo,
-                R.drawable.ic_add_circle_black_24dp
-
-        };
-        CustomList adapter = new
-                CustomList(QuestionActivity.this, web, imageId);
+        adapter = new CustomList(QuestionActivity.this, R.layout.list_single_comment, comments);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,10 +105,28 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(QuestionActivity.this, "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestionActivity.this, "You Clicked at " +comments.get(position).getCom_text(), Toast.LENGTH_SHORT).show();
 
             }
         });
+
+        add_comment_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(add_comment_text.getText().toString())){
+                    add_comment_text.setError(getString(R.string.EmptyComment));
+                    add_comment_text.requestFocus();
+                }
+                else{
+                    Comment com = new Comment(add_comment_text.getText().toString());
+                    comments.add(com);
+                    DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
 
 
 

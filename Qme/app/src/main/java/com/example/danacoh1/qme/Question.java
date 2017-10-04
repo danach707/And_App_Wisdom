@@ -12,8 +12,9 @@ public class Question {
     private long yes_counter, no_counter;
     private String id;
     private String type;
-    private String comments;
+    private String [] comments;
     private String questionOwner;
+    private int numOfComments;
 
 
     //=============================================================================================
@@ -27,7 +28,7 @@ public class Question {
         type = "General";
         yes_counter = 0;
         no_counter = 0;
-        comments = "";
+        numOfComments = 0;
         questionOwner = "";
     }
     public Question(String question, String type) {
@@ -35,7 +36,7 @@ public class Question {
         this.type = type;
         yes_counter = 0;
         no_counter = 0;
-        comments = "";
+        numOfComments = 0;
         questionOwner = "";
     }
 
@@ -116,11 +117,11 @@ public class Question {
 
     //=============================================================================================
 
-    public String getComments() {
+    public String [] getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(String [] comments) {
         this.comments = comments;
     }
 }

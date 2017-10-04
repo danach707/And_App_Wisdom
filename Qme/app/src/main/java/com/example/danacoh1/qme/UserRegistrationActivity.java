@@ -161,7 +161,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
             focusView = password;
             cancel = true;
         }
-        if (!TextUtils.isEmpty(pass2) || !pass2.equals(pass)) {
+        if (!pass2.equals(pass)) {
             password2.setError(getString(R.string.error_invalid_password2));
             focusView = password2;
             cancel = true;
@@ -171,17 +171,17 @@ public class UserRegistrationActivity extends AppCompatActivity {
             focusView = age;
             cancel = true;
         }
-        if(!TextUtils.isEmpty(musername)){
+        if(TextUtils.isEmpty(musername)){
             username.setError(getString(R.string.error_field_required));
             focusView = username;
             cancel = true;
         }
-        else if(DatabaseUtils.isExistInDatabase(musername,Constants.CHILD_USERNAME,Constants.TYPE_USER)){
-            Toast.makeText(getApplicationContext(),"inside usename is invalid condition", Toast.LENGTH_LONG).show();
-            username.setError(getString(R.string.error_invalid_username));
-            focusView = username;
-            cancel = true;
-        }
+//        else if(DatabaseUtils.isExistInDatabase(musername,Constants.CHILD_USERNAME,Constants.TYPE_USER)){
+//            Toast.makeText(getApplicationContext(),"inside usename is invalid condition", Toast.LENGTH_LONG).show();
+//            username.setError(getString(R.string.error_invalid_username));
+//            focusView = username;
+//            cancel = true;
+//        }
         if (TextUtils.isEmpty(email)) {
             this.email.setError(getString(R.string.error_field_required));
             focusView = this.email;
