@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -39,8 +43,9 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     private SharedPreferences.Editor editor;
     private Question questionData;
 
-    private LinkedList<Comment> comments;
-    private CustomList adapter;
+    private ArrayList<Comment> comments;
+    private ListView c_list_view;
+
 
 //=============================================================================================
 
@@ -56,23 +61,19 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         n_c = (TextView)findViewById(R.id.no_count);
         add_comment_action = (Button)findViewById(R.id.add_comment_action);
         add_comment_text = (EditText)findViewById(R.id.add_comment_text);
+        c_list_view = (ListView) findViewById(R.id.comments_list);
+        c_list_view.setLongClickable(true);
 
         Intent intent = getIntent();
         String data = intent.getStringExtra("Question Data");
-        ListView list;
-        comments = new LinkedList<>();
+
+        comments = new ArrayList<>();
 
         Gson gson = new Gson();
         questionData = gson.fromJson(data, Question.class);
 
         questionView.setText(questionData.getQuestion());
         create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-
-        //TODO add error handling
-
-
-     //   callAlertDialog();
-
 
         y_b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +82,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 String tmp = "" + questionData.getYes_counter();
                 y_c.setText(tmp);
                 create_pie(questionData.getYes_counter(),questionData.getNo_counter());
-                DatabaseUtils.addDataToChildFirebase(questionData,null, Constants.TYPE_QUESTION);
+                DatabaseUtils.addDataToChildFirebase(questionData, null, Constants.TYPE_QUESTION);
 
             }
         });
@@ -97,18 +98,9 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        adapter = new CustomList(QuestionActivity.this, R.layout.list_single_comment, comments);
-        list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(QuestionActivity.this, "You Clicked at " +comments.get(position).getCom_text(), Toast.LENGTH_SHORT).show();
+        retrieveComments(questionData.getId());
 
-            }
-        });
 
         add_comment_action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,35 +114,62 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                     comments.add(com);
                     DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
                 }
-                adapter.notifyDataSetChanged();
             }
         });
 
 
+        c_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                Log.d(TAG,"inside long press");
+                return true;
+            }
+        });
+
+        c_list_view.setAdapter(new CustomList(this, comments));
+        ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
+    }
 
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        comments.clear();
     }
 
     //=============================================================================================
 
+    private void retrieveComments(String id) {
 
 
+        //TODO Throw it to general database class  - no logic of data base inside the QME
+        DatabaseUtils.ref.child(Constants.TYPE_QUESTION).child(id).child(Constants.TYPE_COMMENT).addValueEventListener(new ValueEventListener() {
 
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                comments.clear();
+                for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
+                    Comment q = noteSnapshot.getValue(Comment.class);
+                    comments.add(q);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        });
+    }
 
     //=============================================================================================
 
     private void create_pie(long yes, long no){
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
 
-
         pieChart.setUsePercentValues(true);
 
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         yvalues.add(new Entry(yes, 0));
         yvalues.add(new Entry(no, 1));
-
-
 
         PieDataSet dataSet = new PieDataSet(yvalues, "Question Results");
 
@@ -167,14 +186,10 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         pieChart.setTransparentCircleRadius(32f);
         pieChart.setHoleRadius(32f);
 
-
-
-
         ArrayList<String> xVals = new ArrayList<>();
 
         xVals.add("YES");
         xVals.add("NO");
-
 
         PieData data = new PieData(xVals, dataSet);
 
@@ -186,8 +201,6 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
         pieChart.invalidate();
-
-
 
         /*
         data.setValueTextColor(Color.DKGRAY);

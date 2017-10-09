@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * Created by danacoh1 on 6/1/2017.
+ * Created by QME team on 6/1/2017.
  */
 
 public class QuestionListAdapter extends BaseAdapter {

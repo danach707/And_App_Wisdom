@@ -3,6 +3,10 @@ package com.example.danacoh1.qme;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,15 +16,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 
 
 /**
- * Created by danacoh1 on 6/3/2017.
+ * Created by Qme team on 6/3/2017.
  */
 
 public class DatabaseUtils{
@@ -29,7 +35,7 @@ public class DatabaseUtils{
     //static instance of firebase database
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private static DatabaseReference ref = database.getReference();
+    public static DatabaseReference ref = database.getReference();
     private static Question quest;
     private static Comment comment;
     private static User users;
@@ -63,6 +69,7 @@ public class DatabaseUtils{
     //==============================================================================================//
 
     public static void addDataToChildFirebase(Object data,Object extraData, String type) {
+        String key = "";
         try {
             switch (type) {
                 case Constants.TYPE_QUESTION:
@@ -76,8 +83,9 @@ public class DatabaseUtils{
                 case Constants.TYPE_COMMENT:
                     Question c = (Question) data;
                     Comment com = (Comment)extraData;
-                    data = handleComment(com,c,0,0);
-                    ref.child(Constants.TYPE_QUESTION).child(c.getId()).setValue(data);
+                    key = ref.child(Constants.TYPE_QUESTION).child(c.getId()).child(Constants.TYPE_COMMENT).push().getKey();
+                    com.setId(key);
+                    ref.child(Constants.TYPE_QUESTION).child(c.getId()).child(Constants.TYPE_COMMENT).child(key).setValue(com);
                     break;
             }
         } catch (Exception e) {
@@ -137,6 +145,14 @@ public class DatabaseUtils{
         if (user != null)
             return true;
         return false;
+
+    }
+
+    //==============================================================================================//
+
+    public static void readAllCommentQuestion(String id, String type, ListView list, CustomList adapter){
+
+
 
     }
 
@@ -214,25 +230,7 @@ public class DatabaseUtils{
         return null;
     }
 
-    private static Question handleComment(Comment com, Question q, int numOfLikes, int numOfUnLikes){
-        if(numOfLikes == 0 && numOfUnLikes == 0) {
-            com.setQuestionId(q.getId());
-            com.setUserId(UserProfileActivity.currUserLogged.getId());
-        }else{
-            com.setNum_of_likes(numOfLikes);
-            com.setNum_of_unlikes(numOfUnLikes);
-        }
 
-        String [] link = new String[0];
-        try {
-            link = new JSONArray(q.getComments());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        link.add(transformToString(com));
-        q.setComments(transformToString(link));
-        return q;
-    }
 
 
 }

@@ -80,6 +80,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
         });
         initList();
         q_list_view.setAdapter(new QuestionListAdapter(this, q_arraylist));
+
     }
 
     //=============================================================================================
@@ -112,7 +113,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
                         q_arraylist.add(q);
                     }
                     else{
-                        if(q.getQuestionOwner().equals(DatabaseUtils.user.getEmail()))
+                        if(q.getQuestionOwner().equals(UserProfileActivity.currUserLogged.getEmail()))
                             q_arraylist.add(q);
                     }
                 }

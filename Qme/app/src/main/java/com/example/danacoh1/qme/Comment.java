@@ -19,8 +19,9 @@ public class Comment {
     }
 
     public Comment(String text) {
-        this.com_text = com_text;
+        this.com_text = text;
     }
+
     public Comment(String com_text, String id, String userId, String questionId) {
         this.com_text = com_text;
         this.id = id;
