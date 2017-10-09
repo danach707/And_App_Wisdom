@@ -2,14 +2,20 @@ package com.example.danacoh1.qme;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -36,8 +42,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import static com.example.danacoh1.qme.Constants.GET_FROM_GALLERY;
 
@@ -141,6 +150,7 @@ public class UserProfileActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
 
     //==============================================================================================//
 
@@ -265,7 +275,7 @@ public class UserProfileActivity extends AppCompatActivity
     }
 
     //==============================================================================================//
-    private void alertSetAboutYouself(){
+    private void alertSetAboutYouself() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_profile_edit_short_story);
         dialog.setCancelable(false);
@@ -282,7 +292,7 @@ public class UserProfileActivity extends AppCompatActivity
 
                 String about = edit_about_yourself.getText().toString();
                 currUserLogged.setShortStory(about);
-                DatabaseUtils.addDataToChildFirebase(currUserLogged,null,Constants.TYPE_USER);
+                DatabaseUtils.addDataToChildFirebase(currUserLogged, null, Constants.TYPE_USER);
                 txt_shortBio.setText(about);
                 dialog.cancel();
                 Toast.makeText(getApplicationContext(), "Nice frase ;)", Toast.LENGTH_LONG).show();
