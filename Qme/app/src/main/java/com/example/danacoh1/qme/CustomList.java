@@ -32,6 +32,10 @@ public class CustomList extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public List<Comment> getData(){
+        return data;
+    }
+
     @Override
     public int getCount() {
         return data.size();
@@ -49,7 +53,6 @@ public class CustomList extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View vi = convertView;
         String tmp;
 

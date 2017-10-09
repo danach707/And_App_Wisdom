@@ -46,6 +46,8 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<Comment> comments;
     private ListView c_list_view;
 
+    private CustomList staticList;
+
 
 //=============================================================================================
 
@@ -99,8 +101,16 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         });
 
 
-        retrieveComments(questionData.getId());
 
+
+
+
+
+
+        retrieveComments(questionData.getId());
+        staticList = new CustomList(this, comments);
+        c_list_view.setAdapter(staticList);
+        ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
 
         add_comment_action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,9 +135,6 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 return true;
             }
         });
-
-        c_list_view.setAdapter(new CustomList(this, comments));
-        ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
     }
 
 
@@ -140,7 +147,6 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     //=============================================================================================
 
     private void retrieveComments(String id) {
-
 
         //TODO Throw it to general database class  - no logic of data base inside the QME
         DatabaseUtils.ref.child(Constants.TYPE_QUESTION).child(id).child(Constants.TYPE_COMMENT).addValueEventListener(new ValueEventListener() {
@@ -157,6 +163,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, databaseError.getMessage());
             }
+
         });
     }
 
