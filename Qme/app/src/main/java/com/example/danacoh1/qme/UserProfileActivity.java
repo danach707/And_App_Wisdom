@@ -86,7 +86,6 @@ public class UserProfileActivity extends AppCompatActivity
                         currUserLogged.setPassword(u.getPassword());
                         currUserLogged.setPhotoUrl(u.getPhotoUrl());
                         currUserLogged.setShortStory(u.getShortStory());
-                        currUserLogged.setUsername(u.getUsername());
                         txt_userName.setText(currUserLogged.getFname() + " " + currUserLogged.getLname());
                         txt_shortBio.setText(currUserLogged.getShortStory());
                         break;

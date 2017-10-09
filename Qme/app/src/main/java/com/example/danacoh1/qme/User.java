@@ -13,7 +13,6 @@ import java.util.LinkedList;
 
 public class User {
 
-    private String username;
     private String password;
     private String fname;
     private String lname;
@@ -29,8 +28,7 @@ public class User {
 
     }
 
-    public User(String username, String password, String fname, String lname, String age, String email, String gender, String shortStory, Uri photoUrl) {
-        this.username = username;
+    public User(String password, String fname, String lname, String age, String email, String gender, String shortStory, Uri photoUrl) {
         this.password = password;
         this.fname = fname;
         this.lname = lname;
@@ -43,7 +41,6 @@ public class User {
     }
 
     public User(User other){
-        this.username = other.username;
         this.password = other.password;
         this.fname = other.fname;
         this.lname = other.lname;
@@ -53,14 +50,6 @@ public class User {
         this.gender = other.gender;
         this.shortStory = other.shortStory;
         this.askedQuestionsUID="";
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

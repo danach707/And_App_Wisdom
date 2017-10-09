@@ -102,7 +102,7 @@ public class ListActivity extends Activity implements NavigationView.OnNavigatio
     private void initList() {
 
         database.addValueEventListener(new ValueEventListener() {
-            //TODO - handle download time from server
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 q_arraylist.clear();
