@@ -20,6 +20,8 @@ public class Comment {
 
     public Comment(String text) {
         this.com_text = text;
+        this.num_of_likes = 0;
+        this.num_of_unlikes = 0;
     }
 
     public Comment(String com_text, String id, String userId, String questionId) {

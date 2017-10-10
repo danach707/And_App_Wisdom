@@ -23,6 +23,8 @@ public class User {
     private String gender;
     private String askedQuestionsUID;
     private String id;
+    private int userQuestions;
+    private int userAnswers;
 
     public User() {
 
@@ -51,6 +53,14 @@ public class User {
         this.shortStory = other.shortStory;
         this.askedQuestionsUID="";
     }
+
+    public int getUserQuestions() {return userQuestions;}
+
+    public void setUserQuestions(int userQuestions) {this.userQuestions = userQuestions;}
+
+    public int getUserAnswers() {return userAnswers;}
+
+    public void setUserAnswers(int userAnswers) {this.userAnswers = userAnswers;}
 
     public String getPassword() {
         return password;

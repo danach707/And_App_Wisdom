@@ -5,8 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/background_main2"
+    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -58,38 +58,36 @@
                     android:textStyle="bold" />
 
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@+id/user_profile_name"
                     android:layout_margin="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
                     <Button
                         android:id="@+id/user_profile_short_bio_action"
                         android:layout_width="2dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1"
                         android:layout_marginRight="12dp"
+                        android:layout_weight="1"
                         android:background="@drawable/edit_short_story_profile"
-                        android:gravity="center"/>
+                        android:gravity="center" />
 
                     <TextView
                         android:id="@+id/user_profile_short_bio"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:gravity="center"
-                        android:layout_weight="13"
                         android:layout_marginLeft="1dp"
+                        android:layout_weight="13"
+                        android:gravity="center"
                         android:maxLines="2"
                         android:text="ספר על עצמך"
                         android:textColor="#fff"
                         android:textSize="14sp" />
 
                 </LinearLayout>
-
 
 
             </RelativeLayout>
@@ -102,59 +100,29 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:elevation="4dp"
+                    android:elevation="40dp"
                     android:padding="20dp"
-                    android:text="Android Profile UI Design" />
+                    android:text="שלח הודעה לחברים" />
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
                     android:background="#fff"
                     android:clickable="true"
-                    android:elevation="4dp"
+                    android:elevation="40dp"
                     android:padding="20dp"
-                    android:text="Android Profile XMl UI Design" />
+                    android:text="לחץ לקבל סטטיסטיקה" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:elevation="4dp"
-                    android:padding="20dp"
-                    android:text="Android Profile UI Design" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:elevation="4dp"
-                    android:padding="20dp"
-                    android:text="Android Profile XMl UI Design" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:elevation="4dp"
-                    android:padding="20dp"
-                    android:text="Android Profile UI Design" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

@@ -59,8 +59,12 @@ public class CustomList extends BaseAdapter {
         if (vi == null)
             vi = inflater.inflate(R.layout.list_single_comment, null);
 
-        TextView comm = (TextView) vi.findViewById(R.id.txt);
+        TextView comm = (TextView) vi.findViewById(R.id.comm_txt);
+        TextView comm_yes_counter = (TextView) vi.findViewById(R.id.comm_list_yes_counter);
+        TextView comm_no_counter = (TextView) vi.findViewById(R.id.comm_list_no_counter);
         comm.setText(data.get(position).getCom_text());
+        comm_yes_counter.setText(""+data.get(position).getNum_of_likes());
+        comm_no_counter.setText(""+data.get(position).getNum_of_unlikes());
 
         return vi;
     }
