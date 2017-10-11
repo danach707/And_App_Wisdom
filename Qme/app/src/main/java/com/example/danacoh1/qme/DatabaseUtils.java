@@ -95,8 +95,15 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static void removeFromDatabase(String key, User user, String type) {
-        ref.child(type).child(key).removeValue();
+    public static void removeFromDatabase(String key, Object data, String type) {
+        if(type.equals(Constants.TYPE_COMMENT)){
+            Question qkey = (Question)data;
+            ref.child(Constants.TYPE_QUESTION).child(qkey.getId()).child(Constants.TYPE_COMMENT).child(key).removeValue();
+        }
+        else{
+            ref.child(type).child(key).removeValue();
+        }
+
     }
 
     //==============================================================================================//

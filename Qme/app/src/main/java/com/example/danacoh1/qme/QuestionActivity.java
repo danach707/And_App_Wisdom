@@ -1,10 +1,12 @@
 package com.example.danacoh1.qme;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -100,13 +102,6 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-
-
-
-
-
-
-
         retrieveComments(questionData.getId());
         staticList = new CustomList(this, comments);
         c_list_view.setAdapter(staticList);
@@ -123,15 +118,16 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                     Comment com = new Comment(add_comment_text.getText().toString());
                     comments.add(com);
                     DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
+                    ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
                 }
             }
         });
-
 
         c_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 Log.d(TAG,"inside long press");
+                buildMessageToDelete(pos,"האם למחוק את התגובה?");
                 return true;
             }
         });
@@ -143,6 +139,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         super.onResume();
         comments.clear();
     }
+
 
     //=============================================================================================
 
@@ -223,6 +220,27 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     }
 
 
+    //=============================================================================================
+    private void buildMessageToDelete(final int pos, String field) {
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle(getResources().getString(R.string.DeleteQuestionTitleAlert));
+        alertDialog.setMessage(field);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "לא",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "כן",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseUtils.removeFromDatabase(comments.get(pos).getId(),questionData,Constants.TYPE_COMMENT);
+                        ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
+                        c_list_view.invalidate();
+                    }
+                });
+        alertDialog.show();
+    }
     //=============================================================================================
 
 
