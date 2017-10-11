@@ -22,6 +22,18 @@
     <string name="slide_4_title">Comment</string>
     <string name="slide_4_desc">Comment other people questions and they can comment yours!</string>
 
+    <string name="slide_1_title_heb">ברוך הבא ל QME!</string>
+    <string name="slide_1_desc_heb">שאל את השאלות הקשות ביותר ותשיג את התשובה הפשוטה והמהירה ביותר מכל קצוות העולם</string>
+
+    <string name="slide_2_title_heb">שאל כל שאלה</string>
+    <string name="slide_2_desc_heb">אנשים יענו בכן או לא לדילמה שמעסיקה אותך ויעזרו לפתור לך את הבעיות!</string>
+
+    <string name="slide_3_title_heb">ענה לשאלות של אחרים </string>
+    <string name="slide_3_desc_heb">תוכל לענות בכן או לא לשאלות של אנשים אחרים ולעזור להם לפתור את הדילמות בחייהם!</string>
+
+    <string name="slide_4_title_heb">תוכל להגיב ולהביע דעה</string>
+    <string name="slide_4_desc_heb">רשום תגובה לשאלות של אחרים וקבל תגובות לשאלותיך</string>
+
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="title_activity_user_profile">UserProfile</string>

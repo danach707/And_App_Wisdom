@@ -18,6 +18,7 @@ public class NewQuestionActivity extends AppCompatActivity {
     private EditText question;
     private Spinner types;
     private ArrayAdapter<String> questionTypesAdapter;
+    private View focusView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,13 @@ public class NewQuestionActivity extends AppCompatActivity {
                     Question q = new Question(quest,qtype);
                     System.out.println("  ----------------------  "+ quest + " IM NOT NULL!!");
                     DatabaseUtils.writeToDatabase(q,UserProfileActivity.currUserLogged, Constants.TYPE_QUESTION);
-                    Toast.makeText(getApplicationContext(), "Question submitted!" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "השאלה עלתה למאגר!" , Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "missing fields" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "נא למלא שאלה" , Toast.LENGTH_LONG).show();
+                    focusView = question;
+                    focusView.requestFocus();
                 }
 
             }
