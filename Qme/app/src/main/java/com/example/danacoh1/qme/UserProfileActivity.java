@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static com.example.danacoh1.qme.Constants.GET_FROM_GALLERY;
+import static com.example.danacoh1.qme.R.id.nav_profile_name;
 
 public class UserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +59,7 @@ public class UserProfileActivity extends AppCompatActivity
     private FirebaseUser userAuthenticated;
     private TextView txt_shortBio;
     private TextView txt_userName;
+    TextView txt_nav_name_profile;
     private DatabaseReference ref;
     private ImageButton userProfilePhoto;
 
@@ -72,6 +74,7 @@ public class UserProfileActivity extends AppCompatActivity
         txt_userName = (TextView) findViewById(R.id.user_profile_name);
         txt_shortBio = (TextView) findViewById(R.id.user_profile_short_bio);
         userProfilePhoto = (ImageButton) findViewById(R.id.user_profile_photo);
+        txt_nav_name_profile = (TextView) findViewById(R.id.nav_profile_name);
 
         /*********   USER  DETAILS   ********/
 
@@ -97,6 +100,7 @@ public class UserProfileActivity extends AppCompatActivity
                         currUserLogged.setShortStory(u.getShortStory());
                         txt_userName.setText(currUserLogged.getFname() + " " + currUserLogged.getLname());
                         txt_shortBio.setText(currUserLogged.getShortStory());
+                        //txt_nav_name_profile.setText(currUserLogged.getFname()+" "+currUserLogged.getLname()+"\n"+ currUserLogged.getEmail());
                         break;
                     }
                 }
@@ -121,6 +125,7 @@ public class UserProfileActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("תפריט");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +150,7 @@ public class UserProfileActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
