@@ -35,18 +35,18 @@
     <!-- Strings related to login -->
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_up_sucsses">Register Complited</string>
-    <string name="action_sign_up_Failed">Register Failed</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_invalid_password2">Password does not matcht</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_invalid_username">this username is already taken</string>
+    <string name="action_sign_up_Failed">ההרשמה נכשלה</string>
+    <string name="error_invalid_email">נא למלא דואר אלקטרוני תקין</string>
+    <string name="error_invalid_password">סיסמה קצרה מדי</string>
+    <string name="error_invalid_password2">סיסמאות לא תואמות</string>
+    <string name="error_incorrect_password">סיסמה לא נכונה</string>
+    <string name="error_field_required">נא למלא את השדה</string>
+    <string name="error_invalid_username">שם שמתמש זה קיים כבר</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="error_invalid_age">"age must be over 13"</string>
+    <string name="error_invalid_age">"עליך להיות מעל לגיל 13"</string>
 
 
 

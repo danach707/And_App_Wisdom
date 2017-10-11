@@ -77,22 +77,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="9dp"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
                 <Spinner
                     android:id="@+id/reg_gender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:entries="@array/Gender"
-                    android:layoutDirection="rtl"></Spinner>
+                    android:layoutDirection="rtl">
+
+                </Spinner>
 
                 <EditText
                     android:id="@+id/reg_age"
-                    android:layout_width="200dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/age"
                     android:inputType="number"

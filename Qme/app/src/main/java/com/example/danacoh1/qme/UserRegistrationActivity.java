@@ -182,12 +182,12 @@ public class UserRegistrationActivity extends AppCompatActivity {
         //-----------------------First + Last Validation-----------------------//
 
         if (TextUtils.isEmpty(fname)) {
-            firstname.setError(getString(R.string.error_invalid_email));
+            firstname.setError(getString(R.string.error_field_required));
             focusView = firstname;
             vCancel = true;
         }
         if (TextUtils.isEmpty(lastname)) {
-            surname.setError(getString(R.string.error_invalid_email));
+            surname.setError(getString(R.string.error_field_required));
             focusView = surname;
             vCancel = true;
         }
@@ -195,7 +195,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         //-----------------------User age Validation---------------------------//
 
         if (TextUtils.isEmpty(userage)) {
-            age.setError(getString(R.string.error_invalid_email));
+            age.setError(getString(R.string.error_field_required));
             focusView = age;
             vCancel = true;
         }
