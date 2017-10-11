@@ -9,7 +9,7 @@
     </style>
 
     <string-array name="typesHE">
-        <item>תחום השאלה</item>
+        <item>כללי</item>
         <item>פוליטיקה</item>
         <item>בעלי חיים</item>
         <item>בית ספר</item>
@@ -30,7 +30,7 @@
         <item>מדעים</item>
         <item>מדעי המחשב</item>
         <item>רגשות</item>
-        <item>שמעמם לי</item>
+        <item>משעמם לי</item>
         <item>מה עובר עלי</item>
     </string-array>
 

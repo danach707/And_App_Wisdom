@@ -30,7 +30,10 @@ public class Question {
     }
     public Question(String question, String type) {
         this.question = question;
-        this.type = type;
+        if(type.equals("תחום השאלה"))
+            this.type ="כללי";
+        else
+            this.type = type;
         yes_counter = 0;
         no_counter = 0;
         numOfComments = 0;

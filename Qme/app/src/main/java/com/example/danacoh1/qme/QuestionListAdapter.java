@@ -61,7 +61,7 @@ public class QuestionListAdapter extends BaseAdapter {
         TextView no = (TextView) vi.findViewById(R.id.list_no_counter);
 
 
-        question.setText(data.get(position).getQuestion());
+        question.setText(data.get(position).getType()+": "+data.get(position).getQuestion());
 
         tmp = "" + data.get(position).getYes_counter();
         yes.setText(tmp);
