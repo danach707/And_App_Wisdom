@@ -28,6 +28,9 @@ public class Constants {
 
     final static public int MAX_LENGTH_COMMENT = 100;
 
+    final static public String LIKE = "like";
+    final static public String UN_LIKE = "un_like";
+
 
 
 

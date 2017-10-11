@@ -7,7 +7,7 @@
     <TableRow>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:orientation="horizontal"
             android:gravity="right">
             <!--<ImageView-->
@@ -17,43 +17,43 @@
                 <!--android:layout_column="0" />-->
 
             <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="55dp"
+                android:layout_width="45dp"
+                android:layout_height="70dp"
                 android:layout_weight="2"
                 android:orientation="vertical"
                 android:gravity="left">
 
                 <ImageView
                     android:id="@+id/comm_list_yes_image"
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="40dp"
                     android:layout_column="1"
                     android:src="@drawable/like" />
 
                 <TextView
                     android:id="@+id/comm_list_yes_counter"
-                    android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
                     android:layout_column="2"
                     android:text="0" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="55dp"
+                android:layout_width="45dp"
+                android:layout_height="60dp"
                 android:layout_weight="2"
                 android:orientation="vertical"
                 android:gravity="right">
                 <ImageView
                     android:id="@+id/comm_list_no_image"
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="40dp"
                     android:layout_column="3"
                     android:src="@drawable/dislike" />
 
                 <TextView
                     android:id="@+id/comm_list_no_counter"
-                    android:layout_width="30dp"
+                    android:layout_width="45dp"
                     android:layout_height="30dp"
                     android:layout_column="4"
                     android:textDirection="rtl"
@@ -64,7 +64,7 @@
             <TextView
                 android:id="@+id/comm_txt"
                 android:layout_width="270dp"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:gravity="right"
                 android:layout_weight="5"
                 android:textDirection="rtl"

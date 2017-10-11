@@ -29,7 +29,7 @@ import java.util.LinkedList;
  * Created by Qme team on 6/3/2017.
  */
 
-public class DatabaseUtils{
+public class DatabaseUtils {
 
     private static final String TAG = "DatabaseUtils";
     //static instance of firebase database
@@ -68,7 +68,7 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static void addDataToChildFirebase(Object data,Object extraData, String type) {
+    public static void addDataToChildFirebase(Object data, Object extraData, String type) {
         String key = "";
         try {
             switch (type) {
@@ -82,7 +82,7 @@ public class DatabaseUtils{
                     break;
                 case Constants.TYPE_COMMENT:
                     Question c = (Question) data;
-                    Comment com = (Comment)extraData;
+                    Comment com = (Comment) extraData;
                     key = ref.child(Constants.TYPE_QUESTION).child(c.getId()).child(Constants.TYPE_COMMENT).push().getKey();
                     com.setId(key);
                     ref.child(Constants.TYPE_QUESTION).child(c.getId()).child(Constants.TYPE_COMMENT).child(key).setValue(com);
@@ -94,13 +94,31 @@ public class DatabaseUtils{
     }
 
     //==============================================================================================//
+    public static void addDataToCommentFirebase(Question q, Comment c, String type, int quantity) {
+        try {
+            if(type.equals(Constants.LIKE))
+                ref.child(Constants.TYPE_QUESTION).child(q.getId())
+                        .child(Constants.TYPE_COMMENT)
+                        .child(c.getId())
+                        .child("num_of_likes")
+                        .setValue(quantity);
+            else
+                ref.child(Constants.TYPE_QUESTION).child(q.getId())
+                        .child(Constants.TYPE_COMMENT)
+                        .child(c.getId())
+                        .child("num_of_unlikes")
+                        .setValue(quantity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //==============================================================================================//
 
     public static void removeFromDatabase(String key, Object data, String type) {
-        if(type.equals(Constants.TYPE_COMMENT)){
-            Question qkey = (Question)data;
+        if (type.equals(Constants.TYPE_COMMENT)) {
+            Question qkey = (Question) data;
             ref.child(Constants.TYPE_QUESTION).child(qkey.getId()).child(Constants.TYPE_COMMENT).child(key).removeValue();
-        }
-        else{
+        } else {
             ref.child(type).child(key).removeValue();
         }
 
@@ -157,8 +175,7 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static void readAllCommentQuestion(String id, String type, ListView list, CustomList adapter){
-
+    public static void readAllCommentQuestion(String id, String type, ListView list, CustomList adapter) {
 
 
     }
@@ -186,7 +203,7 @@ public class DatabaseUtils{
 
     //==============================================================================================//
 
-    public static boolean isExistInDatabase(final String data, final String field, String type){
+    public static boolean isExistInDatabase(final String data, final String field, String type) {
         ref = ref.child(type);
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -196,13 +213,13 @@ public class DatabaseUtils{
                 for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                     String val = noteSnapshot.child(field).getValue(String.class);
 
-                    if(val != null){
+                    if (val != null) {
                         Log.d(TAG, "----Val: " + val + "----");
-                        if(val.equals(data)) {
+                        if (val.equals(data)) {
                             valExistInDatabase = true;
                             break;
                         }
-                    }else{
+                    } else {
                         Log.d(TAG, "----Child is not exist on database! check parameters sent----");
                     }
 
@@ -219,25 +236,23 @@ public class DatabaseUtils{
         return valExistInDatabase;
     }
 
-    public static String transformToString(Object obj){
+    public static String transformToString(Object obj) {
         Gson gson = new Gson();
         return gson.toJson(obj);
     }
 
-    public static Object transformToObject(String data, String type){
+    public static Object transformToObject(String data, String type) {
         Gson gson = new Gson();
-        if(type.equals(Constants.TYPE_COMMENT))
-            return gson.fromJson(data,Comment.class);
-        if(type.equals(Constants.TYPE_USER))
-            return gson.fromJson(data,User.class);
-        if(type.equals(Constants.TYPE_QUESTION))
-            return gson.fromJson(data,Question.class);
-        if(type.equals(Constants.TYPE_STRING_LINKED))
-            return gson.fromJson(data,Constants.STRING_LIST_TYPE);
+        if (type.equals(Constants.TYPE_COMMENT))
+            return gson.fromJson(data, Comment.class);
+        if (type.equals(Constants.TYPE_USER))
+            return gson.fromJson(data, User.class);
+        if (type.equals(Constants.TYPE_QUESTION))
+            return gson.fromJson(data, Question.class);
+        if (type.equals(Constants.TYPE_STRING_LINKED))
+            return gson.fromJson(data, Constants.STRING_LIST_TYPE);
         return null;
     }
-
-
 
 
 }

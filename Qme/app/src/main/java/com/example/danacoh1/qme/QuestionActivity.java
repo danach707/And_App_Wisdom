@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,9 +44,9 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
     EditText add_comment_text;
 
     private SharedPreferences.Editor editor;
-    private Question questionData;
+    public static Question questionData;
 
-    private ArrayList<Comment> comments;
+    public static ArrayList<Comment> comments;
     private ListView c_list_view;
 
     private CustomList staticList;
@@ -127,10 +128,16 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 Log.d(TAG,"inside long press");
-                buildMessageToDelete(pos,"האם למחוק את התגובה?");
+                if(UserProfileActivity.currUserLogged.getEmail().equals(questionData.getQuestionOwner()))
+                    buildMessageToDelete(pos,"האם למחוק את התגובה?");
+                else
+                    buildMessageToNotDelete(pos,"אינך יכול למחוק את התגובה. רק בעל השאלה יכול!");
                 return true;
             }
         });
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
     }
 
 
@@ -139,7 +146,10 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
         super.onResume();
         comments.clear();
     }
-
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     //=============================================================================================
 
@@ -241,6 +251,19 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 });
         alertDialog.show();
     }
+    private void buildMessageToNotDelete(final int pos, String field) {
+        android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle(getResources().getString(R.string.DeleteQuestionTitleAlert));
+        alertDialog.setMessage(field);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "סבבה",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
     //=============================================================================================
 
 
