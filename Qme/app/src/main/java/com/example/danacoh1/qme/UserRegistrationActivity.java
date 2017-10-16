@@ -39,7 +39,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private View mProgressView;
     private UserSignUpTask mAuthTask = null;
     private boolean vCancel = false;
-    private boolean emailError = false;
     private View focusView = null;
 
     //============================================================================================//
@@ -157,7 +156,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
             this.email.setError(getString(R.string.error_field_required));
             focusView = this.email;
             vCancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!TextUtils.isEmpty(email) && !isEmailValid(email)) {
             this.email.setError(getString(R.string.error_invalid_email));
             focusView = this.email;
             vCancel = true;
@@ -170,7 +169,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
             focusView = password;
             vCancel = true;
         }
-        if (!pass2.equals(pass)) {
+        if (!TextUtils.isEmpty(pass) && !pass2.equals(pass)) {
             password2.setError(getString(R.string.error_invalid_password2));
             focusView = password2;
             vCancel = true;
@@ -178,16 +177,21 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
         //-----------------------Gender Validation-----------------------------//
 
+        if (ugender.equals(getString(R.string.gender))) {
+            focusView = gender;
+            vCancel = true;
+        }
+
 
         //-----------------------First + Last Validation-----------------------//
 
         if (TextUtils.isEmpty(fname)) {
-            firstname.setError(getString(R.string.error_field_required));
+            firstname.setError(getString(R.string.error_invalid_email));
             focusView = firstname;
             vCancel = true;
         }
         if (TextUtils.isEmpty(lastname)) {
-            surname.setError(getString(R.string.error_field_required));
+            surname.setError(getString(R.string.error_invalid_email));
             focusView = surname;
             vCancel = true;
         }
@@ -195,7 +199,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         //-----------------------User age Validation---------------------------//
 
         if (TextUtils.isEmpty(userage)) {
-            age.setError(getString(R.string.error_field_required));
+            age.setError(getString(R.string.error_invalid_email));
             focusView = age;
             vCancel = true;
         }
@@ -366,13 +370,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
                     DatabaseUtils.writeToDatabase(user, null, Constants.TYPE_USER);
                     mAuthTask = new UserSignUpTask(userEmail, password.getText().toString().trim());
                     mAuthTask.execute((Void) null);
-                    emailError = false;
                 }
                 else {
                     showProgress(false);
                     email.setError("Email already exist.. try a different one!");
                     email.requestFocus();
-                    emailError = true;
                 }
             }
 

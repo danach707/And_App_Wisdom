@@ -120,6 +120,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                     comments.add(com);
                     DatabaseUtils.addDataToChildFirebase(questionData,com,Constants.TYPE_COMMENT);
                     ((CustomList) c_list_view.getAdapter()).notifyDataSetChanged();
+                    add_comment_text.setText("");
                 }
             }
         });
@@ -131,7 +132,7 @@ public class QuestionActivity extends AppCompatActivity implements NavigationVie
                 if(UserProfileActivity.currUserLogged.getEmail().equals(questionData.getQuestionOwner()))
                     buildMessageToDelete(pos,"האם למחוק את התגובה?");
                 else
-                    buildMessageToNotDelete(pos,"אינך יכול למחוק את התגובה. רק בעל השאלה יכול!");
+                    buildMessageToNotDelete(pos,"אינך יכול למחוק את התגובה");
                 return true;
             }
         });

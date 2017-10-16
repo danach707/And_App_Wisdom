@@ -77,24 +77,22 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:gravity="right"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
 
                 <Spinner
                     android:id="@+id/reg_gender"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:entries="@array/Gender"
-                    android:layoutDirection="rtl">
-
-                </Spinner>
+                    android:layoutDirection="rtl"></Spinner>
 
                 <EditText
                     android:id="@+id/reg_age"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/age"
                     android:inputType="number"
@@ -116,23 +114,13 @@
                 android:hint="@string/prompt_email"
                 android:layoutDirection="rtl" />
 
-
-
-
-
-            <EditText
-                android:id="@+id/reg_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:layoutDirection="rtl" />
-
-
             <EditText
                 android:id="@+id/reg_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:textAlignment="viewStart"
                 android:layoutDirection="rtl" />
 
             <EditText
@@ -140,6 +128,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/passwordconfirmation"
+                android:inputType="textPassword"
+                android:textAlignment="viewEnd"
                 android:textDirection="rtl" />
 
 
