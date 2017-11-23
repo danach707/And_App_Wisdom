@@ -5,8 +5,8 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.danacoh1.qme"
-        minSdkVersion 21
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,6 +16,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
@@ -32,7 +34,6 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.github.florent37:materialtextfield:1.0.7'
     testCompile 'junit:junit:4.12'
-
 }
 
 apply plugin: 'com.google.gms.google-services'
